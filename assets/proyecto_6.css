@@ -1,39 +1,113 @@
-.e6_body  {
+.e7_body {
     width:100%;
     height:100%;
     display:flex;
     flex-direction:column;
     justify-content:center;
-    align-items:center
-}
-.e6_title  {
-    color: white;
-    text-shadow:4px 4px 15px 0 black;
-    margin-bottom: 50px;
-    text-align:center;
-    font-family:"no-roboto", sans-serif;    
-}
-.e6_div  {
-    background-color: white;
-    width:100%;
-    height:70px;
-    box-shadow:4px 4px 15px 0 black;
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
     align-items:center;
-    padding: 0;
 }
-.e6_div_dropdown {
+.e7_title{
+    text-align:initial;
+    color:white;
+    font-family:sans-serif;
+    margin: 15px 0;
+}
+.e7_KPI_div_1{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    height: 35px;
+    width: 70%;
+    margin-top: 25px;
+    margin-bottom: 15px;
 }
-.e6_dropdown  {
-    width:200px;
+.e7_KPI_1{
+    height: 100%;
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: black;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 0.7;
+    margin: 0;
+    font-weight: 500;
 }
-.e6_graph {
+.e7_dropdown_1 {
+    width:110px;
+    height:25px;
+    margin-bottom: 20px;
+}
+.e7_graph_div_1{
+    width: 70%;
+    height: 390px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    margin-bottom: 175px;
+}
+.e7_graph_1{
     width: 100%;
+    height: 320px;
+}
+.e7_forecast_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 98%;
+    margin: 0;
+    margin-bottom: 30px;
+}
+.e7_KPI_div_2{
+    height: 420px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.e7_KPI_2{
+    margin: 25px;
+    background-color: white;
+    height: 150px;
+    width: 100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    padding: 0;
+}
+.e7_KPI_title{
+    margin: 0;
+    font-weight: bold;
+}
+.e7_KPI_p{
+    margin: 3px 0;
+}
+.e7_graph_div_2{
+    width: 87%;
+    margin-right: 17px;
+}
+.e7_dropdown_div{
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: flex-start;
+    margin: 0;
+}
+.e7_dropdown_2{
+    width: 170px;
+    height:35px;
+    margin: 6px 0 2px 6px;
+}
+.e7_graph_2 {
+    width: 100%;
+    height: 375px;
 }
