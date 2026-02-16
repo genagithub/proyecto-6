@@ -8,3 +8,4 @@ pandas_ta
 datetime
 scikit-learn
 statsmodels
+gunicorn
