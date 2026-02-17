@@ -10,6 +10,7 @@
     text-align:initial;
     color:white;
     font-family:sans-serif;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px  1px 0 #000, 1px  1px 0 #000;
     margin: 15px 0;
 }
 .e7_KPI_div_1{
