@@ -146,7 +146,7 @@ def update_graph(slct_var, slct_days):
     actual_macd = last_row["MACD"]
     actual_sentiment = last_row["Sentiment"]
     actual_volume = last_row["Volume"]
-    actual_date = pd.to_datetime(df_ml["Date"]).max()
+    actual_date = df_ml["Date"].max()
     
     predicts = []
     future_dates = []
@@ -166,6 +166,8 @@ def update_graph(slct_var, slct_days):
         actual_rsi = np.clip(actual_rsi + (daily_return * 50), 10, 90) 
         actual_macd = actual_macd + (daily_return * actual_close * 0.1)
         actual_sentiment = np.clip(actual_sentiment + np.random.normal(0, 0.02), -1, 1)
+        actual_volume = actual_volume * (1 + abs(daily_return) * 0.1)
+        actual_volume = np.clip(actual_volume, df_ml["Volume"].min(), df_ml["Volume"].max())
         
         predicts.append(price_predict)
         actual_date += pd.Timedelta(days=1)
