@@ -376,6 +376,7 @@ ROI = html.B(children=[], id="ROI")
 STD = html.B(children=[], id="STD")
 
 app = dash.Dash(__name__)
+server = app.server
 
 app.layout =  html.Div(id="body", className="e7_body", children=[
     html.H1("Análisis de Tendencia Mensual", id="H1", className="e7_title"),
