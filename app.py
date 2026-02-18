@@ -43,7 +43,7 @@ MAE_raw = mean_absolute_error(y_test, test_predicts)
 MAE_round = round(MAE_raw, 2)
 MAE_ = "$"+str(MAE_round)
 
-X = df_ml[["Close_yesterday", "RSI", "MACD", "Sentiment"]]
+X = df_ml[["Close_yesterday", "RSI", "MACD", "Sentiment","Volume"]]
 y = df_ml["Close"]
 
 # --- Modelo de pronóstico a implementar ---
