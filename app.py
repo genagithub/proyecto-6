@@ -70,7 +70,7 @@ app = dash.Dash(__name__)
 server = app.server
 
 app.layout =  html.Div(id="body", className="e6_body", children=[
-    html.H1("Análisis de Tendencia Mensual", id="H1", className="e6_title"),
+    html.H1("Análisis de tendencia mensual", id="H1", className="e6_title"),
     html.Div(id="KPI_div_1", className="e6_KPI_div_1", children=[
         html.P(max_month_mean, className="e6_KPI_1"),
         html.P(min_month_mean, className="e6_KPI_1")
