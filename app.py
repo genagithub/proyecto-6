@@ -146,12 +146,12 @@ def update_graph(slct_var, slct_days):
     actual_macd = last_row["MACD"]
     actual_sentiment = last_row["Sentiment"]
     actual_volume = last_row["Volume"]
-    actual_date = pd.to_datetime(df["Date"]).max()
+    actual_date = pd.to_datetime(df_ml["Date"]).max()
     
     predicts = []
     future_dates = []
 
-    volatility = df["Close"].pct_change().std()
+    volatility = df_ml["Close"].pct_change().std()
     mean_volume = df_ml["Volume"].mean()
     std_volume = df_ml["Volume"].std()
     min_volume = df_ml["Volume"].min()
