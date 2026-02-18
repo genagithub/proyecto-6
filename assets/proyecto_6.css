@@ -11,7 +11,7 @@
     color:white;
     font-family:sans-serif;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px  1px 0 #000, 1px  1px 0 #000;
-    margin: 15px 0;
+    margin: 25px 0 10px 0;
 }
 h2:hover{
     cursor:pointer;
@@ -64,8 +64,7 @@ h2:hover{
     justify-content: center;
     align-items: center;
     width: 98%;
-    margin: 0;
-    margin-bottom: 30px;
+    margin: 10px 0 25px 0;
 }
 .e6_KPI_div_2{
     height: 420px;
