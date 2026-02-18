@@ -13,6 +13,9 @@
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px  1px 0 #000, 1px  1px 0 #000;
     margin: 25px 0 10px 0;
 }
+h1{
+    font-size: 1.65em;
+}
 h2:hover{
     cursor:pointer;
 }
