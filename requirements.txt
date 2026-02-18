@@ -6,5 +6,5 @@ plotly==5.20.0
 dash==2.16.1
 pandas-ta==0.4.71b0
 scikit-learn==1.6.1
-statsmodels==0.14.2
+statsmodels==0.14.4
 gunicorn==23.0.0
