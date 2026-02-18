@@ -152,9 +152,6 @@ def update_graph(slct_var, slct_days):
     future_dates = []
 
     volatility = df_ml["Close"].pct_change().std()
-    mean_volume = df_ml["Volume"].mean()
-    std_volume = df_ml["Volume"].std()
-    min_volume = df_ml["Volume"].min()
 
     for _ in range(slct_days):
         input_data = [[actual_close, actual_rsi, actual_macd, actual_sentiment, actual_volume]]
@@ -164,18 +161,16 @@ def update_graph(slct_var, slct_days):
         price_predict = price_predict * (1 + variability)
         
         daily_return = (price_predict - actual_close) / actual_close
+
+        actual_close = price_predict
+        actual_rsi = np.clip(actual_rsi + (daily_return * 50), 10, 90) 
+        actual_macd = actual_macd + (daily_return * actual_close * 0.1)
+        actual_sentiment = np.clip(actual_sentiment + np.random.normal(0, 0.02), -1, 1)
         
         predicts.append(price_predict)
         actual_date += pd.Timedelta(days=1)
         future_dates.append(actual_date)
-        
-        actual_rsi = np.clip(actual_rsi + (daily_return * 100 * 0.1), 0, 100)
-        actual_macd = actual_macd + (daily_return * actual_close * 0.05)
-        actual_sentiment = np.clip(actual_sentiment + np.random.normal(0, 0.01), -1, 1)
-        actual_volume = (actual_volume * 0.7) + (mean_volume * 0.3) + np.random.normal(0, std_volume * 0.05)
-        actual_volume = max(min_volume, actual_volume)
-        actual_close = price_predict
-        
+                
     df_forecast = pd.DataFrame({
         "Date":future_dates,
         "Forecast":predicts
