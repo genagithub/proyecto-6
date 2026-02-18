@@ -86,7 +86,7 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
                         clearable=False),
         dcc.Graph(id="trend_analysis", figure={}, className="e6_graph_1")
     ]),
-    html.A(href="https://github.com/genagithub/proyecto-6/blob/main/pron%C3%B3stico_de_activos_financieros_para_2026.ipynb",target="blank",children=[html.H1(["Pronóstico de ", html_b],id="H2",className="e6_title")]),
+    html.A(href="https://github.com/genagithub/proyecto-6/blob/main/pron%C3%B3stico_de_activos_financieros_para_2026.ipynb",target="blank",children=[html.H2(["Pronóstico de ", html_b],id="H2",className="e6_title")]),
     html.Div(id="forecast_div", className="e6_forecast_div", children=[
         html.Div(id="KPI_div_2", className="e6_KPI_div_2", children=[
             html.Div(className="e6_KPI_2", children=[html.P("MAE", className="e6_KPI_title"), html.P(MAE, className="e6_KPI_p")]),
