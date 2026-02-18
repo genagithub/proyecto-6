@@ -146,7 +146,7 @@ def update_graph(slct_var, slct_days):
     actual_macd = last_row["MACD"]
     actual_sentiment = last_row["Sentiment"]
     actual_volume = last_row["Volume"]
-    actual_date = df_ml["Date"].max()
+    actual_date = df["Date"].max()
     
     predicts = []
     future_dates = []
