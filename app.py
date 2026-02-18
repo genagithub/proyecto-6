@@ -69,14 +69,14 @@ STD = html.B(children=[], id="STD")
 app = dash.Dash(__name__)
 server = app.server
 
-app.layout =  html.Div(id="body", className="e7_body", children=[
-    html.H1("Análisis de Tendencia Mensual", id="H1", className="e7_title",href="https://github.com/genagithub/proyecto-6/blob/main/pron%C3%B3stico_de_activos_financieros_para_2026.ipynb",target="blank"),
-    html.Div(id="KPI_div_1", className="e7_KPI_div_1", children=[
-        html.P(max_month_mean, className="e7_KPI_1"),
-        html.P(min_month_mean, className="e7_KPI_1")
+app.layout =  html.Div(id="body", className="e6_body", children=[
+    html.H1("Análisis de Tendencia Mensual", id="H1", className="e6_title"),
+    html.Div(id="KPI_div_1", className="e6_KPI_div_1", children=[
+        html.P(max_month_mean, className="e6_KPI_1"),
+        html.P(min_month_mean, className="e6_KPI_1")
     ]),
-    html.Div(id="graph_div_1", className="e7_graph_div_1", children=[
-       dcc.Dropdown(id="dropdown_1", className="e7_dropdown_1",
+    html.Div(id="graph_div_1", className="e6_graph_div_1", children=[
+       dcc.Dropdown(id="dropdown_1", className="e6_dropdown_1",
                         options=[
                             {"label":"Volumen","value":"Volume"},
                             {"label":"Precio ($)","value":"Close"}
@@ -84,23 +84,23 @@ app.layout =  html.Div(id="body", className="e7_body", children=[
                         value="Volume",
                         multi=False,
                         clearable=False),
-        dcc.Graph(id="trend_analysis", figure={}, className="e7_graph_1")
+        dcc.Graph(id="trend_analysis", figure={}, className="e6_graph_1")
     ]),
-    html.H2(["Pronóstico de ", html_b], id="H2", className="e7_title"),
-    html.Div(id="forecast_div", className="e7_forecast_div", children=[
-        html.Div(id="KPI_div_2", className="e7_KPI_div_2", children=[
-            html.Div(className="e7_KPI_2", children=[html.P("MAE", className="e7_KPI_title"), html.P(MAE, className="e7_KPI_p")]),
-            html.Div(className="e7_KPI_2", children=[html.P("ROI", className="e7_KPI_title"), html.P(ROI, className="e7_KPI_p")]),
-            html.Div(className="e7_KPI_2", children=[html.P("STD", className="e7_KPI_title"), html.P(STD, className="e7_KPI_p")])
+    html.H2(["Pronóstico de ", html_b], id="H2", className="e6_title", href="https://github.com/genagithub/proyecto-6/blob/main/pron%C3%B3stico_de_activos_financieros_para_2026.ipynb", target="blank"),
+    html.Div(id="forecast_div", className="e6_forecast_div", children=[
+        html.Div(id="KPI_div_2", className="e6_KPI_div_2", children=[
+            html.Div(className="e6_KPI_2", children=[html.P("MAE", className="e6_KPI_title"), html.P(MAE, className="e6_KPI_p")]),
+            html.Div(className="e6_KPI_2", children=[html.P("ROI", className="e6_KPI_title"), html.P(ROI, className="e6_KPI_p")]),
+            html.Div(className="e6_KPI_2", children=[html.P("STD", className="e6_KPI_title"), html.P(STD, className="e6_KPI_p")])
         ]),
-        html.Div(id="graph_div_2", className="e7_graph_div_2", children=[
-            html.Div(id="dropdown_div", className="e7_dropdown_div", children=[
-                dcc.Dropdown(id="dropdown_2", className="e7_dropdown_2",
+        html.Div(id="graph_div_2", className="e6_graph_div_2", children=[
+            html.Div(id="dropdown_div", className="e6_dropdown_div", children=[
+                dcc.Dropdown(id="dropdown_2", className="e6_dropdown_2",
                         options=dates,
                         value=30,
                         multi=False,
                         clearable=False)]),
-            dcc.Graph(id="forecasting", figure={}, className="e7_graph_2")    
+            dcc.Graph(id="forecasting", figure={}, className="e6_graph_2")    
         ])
     ])
 ])
