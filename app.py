@@ -36,7 +36,7 @@ server = app.server
 
 app.layout =  html.Div(id="body", className="e6_body", children=[
     html.H1("Análisis de variables de contexto", id="H1", className="e6_title"),
-    dcc.Dropdown(id="dropdown_vars", className="e6_dropdown_1",
+    dcc.Dropdown(id="dropdown_vars", style={"width":"160px"}, className="e6_dropdown_1",
                         options=[
                             {"label":"Tipo de campaña","value":"Campaign_Type"},
                             {"label":"Compañía","value":"Company"},
@@ -48,8 +48,8 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
                         clearable=False),
     html.Div(id="graph_div_1", className="e6_graph_div_1", children=[
         html.Div(id="KPI_div_1", className="e6_KPI_div_1", children=[
-            html.P(["Max: ", max_conversion_b], className="e6_KPI_1", style={"margin-right":"20px"}),
-            html.P(["Min: ", min_conversion_b], className="e6_KPI_1", style={"margin-left":"20px"})
+            html.P(["Max: ", max_conversion_b], className="e6_KPI_1", style={"margin-right":"20px","width":"300px"}),
+            html.P(["Min: ", min_conversion_b], className="e6_KPI_1", style={"margin-left":"20px","width":"300px"})
         ]),
         dcc.Graph(id="conversions_analysis", figure={}, className="e6_graph_1")
     ]),
