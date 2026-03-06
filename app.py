@@ -139,8 +139,8 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     value_min = df_grouped.loc[idx_min, "Conversions"]
     value_max = df_grouped.loc[idx_max, "Conversions"]
         
-    min_conversion = f"{var_min} ({str(int(value_min))})"
-    max_conversion = f"{var_max} ({str(int(value_max))})"
+    min_conversion = f" {var_min} ({(int(value_min)})"
+    max_conversion = f" {var_max} ({(int(value_max)})"
 
     slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "No encontrado")
     radar_chart = px.line_polar(df_grouped, r="Conversions", theta=slct_var, line_close=True, title=f"Éxito de Conversiones por {slct_label}")
