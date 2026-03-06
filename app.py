@@ -49,8 +49,8 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
                         clearable=False),
     html.Div(id="graph_div_1", className="e6_graph_div_1", children=[
         html.Div(id="KPI_div_1", className="e6_KPI_div_1", children=[
-            html.P(["Máx:", " ", max_conversion_b], className="e6_KPI_1", style={"margin-right":"25px","width":"300px"}),
-            html.P(["Mín:", " ", min_conversion_b], className="e6_KPI_1", style={"margin-left":"25px","width":"300px"})
+            html.P(["Máx: ", max_conversion_b], className="e6_KPI_1", style={"margin-right":"25px","width":"300px"}),
+            html.P(["Mín: ", min_conversion_b], className="e6_KPI_1", style={"margin-left":"25px","width":"300px"})
         ]),
         dcc.Graph(id="conversions_analysis", figure={}, className="e6_graph_1", style={"width":"74%"})
     ]),
@@ -139,8 +139,8 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     value_min = df_grouped.loc[idx_min, "Conversions"]
     value_max = df_grouped.loc[idx_max, "Conversions"]
         
-    min_conversion = f"{var_min} ({int(value_min)})"
-    max_conversion = f"{var_max} ({int(value_max)})"
+    min_conversion = f"{var_min} ({str(int(value_min))})"
+    max_conversion = f"{var_max} ({str(int(value_max))})"
 
     slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "No encontrado")
     radar_chart = px.line_polar(df_grouped, r="Conversions", theta=slct_var, line_close=True, title=f"Éxito de Conversiones por {slct_label}")
