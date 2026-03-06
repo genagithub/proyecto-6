@@ -30,12 +30,12 @@ ROI = html.B(children=[], id="ROI")
 CVR = html.B(children=[], id="CVR")
 CPC = html.B(children=[], id="CPC")
 
-vars = {
-    "Tipo de campaña":"Campaign_Type",
-    "Compañía":"Company",
-    "Canal usado":"Channel_Used",
-    "Locación":"Location"
-}
+vars = [
+    {"label":"Tipo de campaña","value":"Campaign_Type"},
+    {"label":"Compañía","value":"Company"},
+    {"label":"Canal usado","value":"Channel_Used"},
+    {"label":"Locación","value":"Location"}
+]
 
 app = dash.Dash(__name__)
 server = app.server
@@ -43,7 +43,7 @@ server = app.server
 app.layout =  html.Div(id="body", className="e6_body", children=[
     html.H1("Análisis de variables de contexto", id="H1", className="e6_title"),
     dcc.Dropdown(id="dropdown_vars", style={"width":"160px"}, className="e6_dropdown_1",
-                        options=[{"label": v, "value": k} for k, v in vars.items()],
+                        options=vars,
                         value="Campaign_Type",
                         multi=False,
                         clearable=False),
@@ -142,8 +142,8 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     min_conversion = f"{var_min} ({int(value_min)})"
     max_conversion = f"{var_max} ({int(value_max)})"
 
-    slct_label = vars[slct_var]
-    radar_chart = px.line_polar(df_grouped, r="Conversions", theta=slct_var, line_close=True, title=f"Éxito de Conversiones por {slct_var}")
+    slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "No encontrado")
+    radar_chart = px.line_polar(df_grouped, r="Conversions", theta=slct_var, line_close=True, title=f"Éxito de Conversiones por {slct_label}")
     
     df_ts = df_segment.groupby("Date").agg({
         "Conversions": "sum",
