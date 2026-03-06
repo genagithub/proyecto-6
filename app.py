@@ -50,7 +50,7 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
             html.P(["Max: ", max_conversion_b], className="e6_KPI_1", style={"margin-right":"25px","width":"300px"}),
             html.P(["Min: ", min_conversion_b], className="e6_KPI_1", style={"margin-left":"25px","width":"300px"})
         ]),
-        dcc.Graph(id="conversions_analysis", figure={}, className="e6_graph_1", style={"width":"65%"})
+        dcc.Graph(id="conversions_analysis", figure={}, className="e6_graph_1", style={"width":"75%"})
     ]),
     html.H2(["Pronóstico de camapañas de Marketing"], id="H2", className="e6_title"),
     html.Div(id="forecast_div", className="e6_forecast_div", children=[
