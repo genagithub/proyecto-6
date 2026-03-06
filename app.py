@@ -117,81 +117,31 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     
     if slct_var == "Campaign_Type":        
         campaign_style["zIndex"] = 5   
-        
-        df_campaign = df.groupby("Campaign_Type")["Conversions"].sum().reset_index()
-        idx_min = df_campaign["Conversions"].idxmin()
-        idx_max = df_campaign["Conversions"].idxmax()
-        
-        campaign_min = df_campaign.loc[idx_min, "Campaign_Type"]
-        campaign_max = df_campaign.loc[idx_max, "Campaign_Type"]
-        
-        value_min = df_campaign.loc[idx_min, "Conversions"]
-        value_max = df_campaign.loc[idx_max, "Conversions"]
-        
-        min_conversion = f"{campaign_min} ({int(value_min)})"
-        max_conversion = f"{campaign_max} ({int(value_max)})"
-        
-        radar_chart = px.line_polar(df_campaign, r="Conversions", theta=slct_var, line_close=True, title="Éxito de Conversiones por Tipo de Campaña")
-        
         df_segment = df[df[slct_var] == slct_campaign].copy()
     elif slct_var == "Company":
         company_style["zIndex"] = 5
-        
-        df_company = df.groupby("Company")["Conversions"].sum().reset_index()
-        idx_min = df_company["Conversions"].idxmin()
-        idx_max = df_company["Conversions"].idxmax()
-        
-        company_min = df_company.loc[idx_min, "Company"]
-        company_max = df_company.loc[idx_max, "Company"]
-        
-        value_min = df_company.loc[idx_min, "Conversions"]
-        value_max = df_company.loc[idx_max, "Conversions"]
-        
-        min_conversion = f"{company_min} ({int(value_min)})"
-        max_conversion = f"{company_max} ({int(value_max)})"
-        
-        radar_chart = px.line_polar(df_company, r="Conversions", theta=slct_var, line_close=True, title="Éxito de Conversiones por Compañía")
-        
         df_segment = df[df[slct_var] == slct_company].copy()
     elif slct_var == "Channel_Used":        
         channel_style["zIndex"] = 5
-        
-        df_channel = df.groupby("Channel_Used")["Conversions"].sum().reset_index()
-        idx_min = df_channel["Conversions"].idxmin()
-        idx_max = df_channel["Conversions"].idxmax()
-        
-        channel_min = df_channel.loc[idx_min, "Channel_Used"]
-        channel_max = df_channel.loc[idx_max, "Channel_Used"]
-        
-        value_min = df_channel.loc[idx_min, "Conversions"]
-        value_max = df_channel.loc[idx_max, "Conversions"]
-        
-        min_conversion = f"{channel_min} ({int(value_min)})"
-        max_conversion = f"{channel_max} ({int(value_max)})"        
-        
-        radar_chart = px.line_polar(df_channel, r="Conversions", theta=slct_var, line_close=True, title="Éxito de Conversiones por Canal")
-        
         df_segment = df[df[slct_var] == slct_channel].copy()
     else:        
         location_style["zIndex"] = 5
-        
-        df_location = df.groupby("Location")["Conversions"].sum().reset_index()
-        idx_min = df_location["Conversions"].idxmin()
-        idx_max = df_location["Conversions"].idxmax()
-        
-        location_min = df_location.loc[idx_min, "Location"]
-        location_max = df_location.loc[idx_max, "Location"]
-        
-        value_min = df_location.loc[idx_min, "Conversions"]
-        value_max = df_location.loc[idx_max, "Conversions"]
-        
-        min_conversion = f"{location_min} ({int(value_min)})"
-        max_conversion = f"{location_max} ({int(value_max)})" 
-        
-        radar_chart = px.line_polar(df_location, r="Conversions", theta=slct_var, line_close=True, title="Éxito de Conversiones por Locación")
-        
         df_segment = df[df[slct_var] == slct_location].copy()
-    
+        
+    df_grouped = df.groupby(slct_var)["Conversions"].sum().reset_index()
+    idx_min = df_grouped["Conversions"].idxmin()
+    idx_max = df_grouped["Conversions"].idxmax()
+        
+    var_min = df_grouped.loc[idx_min, slct_var]
+    var_max = df_grouped.loc[idx_max, slct_var]
+        
+    value_min = df_grouped.loc[idx_min, "Conversions"]
+    value_max = df_grouped.loc[idx_max, "Conversions"]
+        
+    min_conversion = f"{var_min} ({int(value_min)})"
+    max_conversion = f"{var_max} ({int(value_max)})"
+        
+    radar_chart = px.line_polar(df_grouped, r="Conversions", theta=slct_var, line_close=True, title="Éxito de Conversiones por Tipo de Campaña")
     
     df_ts = df_segment.groupby("Date").agg({
         "Conversions": "sum",
