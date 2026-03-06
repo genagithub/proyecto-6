@@ -12,8 +12,7 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import plotly.express as px
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import html, dcc
 from dash.dependencies import Output, Input
 
 
