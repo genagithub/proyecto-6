@@ -41,7 +41,7 @@ app = dash.Dash(__name__)
 server = app.server
 
 app.layout =  html.Div(id="body", className="e6_body", children=[
-    html.H1("Análisis de variables de contexto", id="H1", className="e6_title"),
+    html.H1("Análisis de dimensiones personalizadas", id="H1", className="e6_title"),
     dcc.Dropdown(id="dropdown_vars", style={"width":"160px"}, className="e6_dropdown_1",
                         options=vars,
                         value="Campaign_Type",
