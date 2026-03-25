@@ -202,7 +202,7 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     forecasting = go.Figure()
     forecasting.add_trace(go.Scatter(x=df_ts["Date"], y=df_ts["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(0, 0, 255, 0.2)", name="Conversiones Históricas"))
     forecasting.add_trace(go.Scatter(x=df_forecast["Date"], y=df_forecast["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(255, 165, 0, 0.2)", name="Pronóstico de 14 días"))
-    forecasting.update_layout(title_text=" ", yaxis_title=" ", xaxis_title=" ")
+    forecasting.update_layout(title_text=" ", yaxis_title=" ")
     
     ROI = round(df_forecast["ROI"].mean(), 2)
     CVR = round(df_forecast["CVR"].mean(), 2)
