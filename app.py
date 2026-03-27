@@ -210,7 +210,7 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     CVR = round(df_forecast["CVR"].mean(), 2)
     CPC = round(df_forecast["CPC"].mean(), 2)
 
-    return max_conversion, min_conversion, radar_chart, campaign_style, company_style, channel_style, location_style, forecasting, ROI, CVR, CPC
+    return max_conversion, min_conversion, line_chart, campaign_style, company_style, channel_style, location_style, forecasting, ROI, CVR, CPC
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8050)) 
