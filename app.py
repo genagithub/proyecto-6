@@ -145,8 +145,9 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     df_grouped = df.groupby(["Month", slct_var])["Conversions"].sum().reset_index()
     
     slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "No encontrado")
-    line_chart = px.line(df_grouped, x="Month", y="Conversions", color=slct_var,markers=True, title=f"Éxito anual de Conversiones por {slct_label}")
-
+    line_chart = px.line(df_grouped, x="Month", y="Conversions", color=slct_var, markers=True, title=f"Éxito anual de Conversiones por {slct_label}")
+    line_chart.update_layout(yaxis_title="sumatoria por mes")
+    
     df_ts = df_segment.groupby("Date").agg({
         "Conversions": "sum",
         "Acquisition_Cost": "sum",
