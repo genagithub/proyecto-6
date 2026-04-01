@@ -129,23 +129,17 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
         location_style["zIndex"] = 5
         df_segment = df[df[slct_var] == slct_location].copy()
         
-    df_grouped = df.groupby(slct_var)["Conversions"].sum().reset_index()
-    idx_min = df_grouped["Conversions"].idxmin()
-    idx_max = df_grouped["Conversions"].idxmax()
+    df_totals = df.groupby(slct_var)["Conversions"].sum().reset_index()
+    idx_min = df_totals["Conversions"].idxmin()
+    idx_max = df_totals["Conversions"].idxmax()
         
-    var_min = df_grouped.loc[idx_min, slct_var]
-    var_max = df_grouped.loc[idx_max, slct_var]
-        
-    value_min = df_grouped.loc[idx_min, "Conversions"]
-    value_max = df_grouped.loc[idx_max, "Conversions"]
-    
-    min_conversion = f"Mín: {var_min} ({int(value_min)})"
-    max_conversion = f"Máx: {var_max} ({int(value_max)})"
+    min_conversion = f"Mín: {df_totals.loc[idx_min, slct_var]} ({int(df_totals.loc[idx_min, "Conversions"])})"
+    max_conversion = f"Máx: {df_totals.loc[idx_max, slct_var]} ({int(df_totals.loc[idx_max, "Conversions"])})"
 
-    df_grouped = df.groupby(["Month", slct_var])["Conversions"].sum().reset_index()
+    df_line = df.groupby(["Month", slct_var])["Conversions"].sum().reset_index()
     slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "No encontrado")
     
-    line_chart = px.line(df_grouped, x="Month", y="Conversions", color=slct_var, markers=True, title=f"Éxito anual de Conversiones por {slct_label}")
+    line_chart = px.line(df_line, x="Month", y="Conversions", color=slct_var, markers=True, title=f"Éxito anual de Conversiones por {slct_label}")
     line_chart.update_layout(yaxis_title="sumatoria por mes")
     
     df_ts = df_segment.groupby("Date").agg({
