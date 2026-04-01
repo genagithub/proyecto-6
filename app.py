@@ -136,6 +136,7 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     min_conversion = f"Mín: {df_totals.loc[idx_min, slct_var]} ({int(df_totals.loc[idx_min, "Conversions"])})"
     max_conversion = f"Máx: {df_totals.loc[idx_max, slct_var]} ({int(df_totals.loc[idx_max, "Conversions"])})"
 
+    df["Month"] = df["Date"].dt.to_period("M").astype(str)
     df_line = df.groupby(["Month", slct_var])["Conversions"].sum().reset_index()
     slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "No encontrado")
     
