@@ -135,23 +135,37 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
         "Conversions": "sum",
         "Acquisition_Cost": "sum",
         "Clicks": "sum",
+        "Impressions": "sum",      
         "ROI": "mean",           
         "Conversion_Rate": "mean"
     }).reset_index().sort_values("Date")
 
+    df_ts["Date"] = pd.to_datetime(df_ts["Date"])
+
+    df_ts["CTR"] = (df_ts["Clicks"] / df_ts["Impressions"]).replace([np.inf, -np.inf], 0).fillna(0)
+    df_ts["CPC"] = (df_ts["Acquisition_Cost"] / df_ts["Clicks"]).replace([np.inf, -np.inf], 0).fillna(0)
+    df_ts["CPM"] = ((df_ts["Acquisition_Cost"] / df_ts["Impressions"]) * 1000).replace([np.inf, -np.inf], 0).fillna(0)
+
+    # Construcción de los Lags históricos
     df_ts["Conv_Lag1"] = df_ts["Conversions"].shift(1)
     df_ts["ROI_Lag1"] = df_ts["ROI"].shift(1)
+    df_ts["Clicks_Lag1"] = df_ts["Clicks"].shift(1)
     df_ts["day_of_week"] = df_ts["Date"].dt.dayofweek
     
     df_model = df_ts.dropna()
 
-    features = ["Conv_Lag1", "ROI_Lag1", "day_of_week"]
+    features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week"]
     targets = ["Conversions", "ROI", "Conversion_Rate"]
     
     X = df_model[features]
     y = df_model[targets]
     
-    rf = RandomForestRegressor(n_estimators=50, random_state=42)
+    rf = RandomForestRegressor(
+        n_estimators=200, 
+        max_depth=10,        
+        min_samples_leaf=3,   
+        random_state=42
+    )
     rf.fit(X, y)
     
     importance = rf.feature_importances_
@@ -197,7 +211,8 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     
     mean_cost = df_ts["Acquisition_Cost"].mean()
     mean_clicks = df_ts["Clicks"].mean()
-    last_cpc = mean_cost / mean_clicks
+    
+    last_cpc = mean_cost / mean_clicks if mean_clicks > 0 else 0
 
     dates = [last_date]
     conversions = [last_conv]
@@ -205,12 +220,15 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     CVRs = [last_cvr]
     CPCs = [last_cpc]
     
-    curr_conv, curr_roi = last_conv, last_roi
+    curr_conv, curr_roi, curr_clicks_lag = last_conv, last_roi, mean_clicks
 
     for date in future_dates:
-        X_input = pd.DataFrame([[curr_conv, curr_roi, date.dayofweek]], columns=features)
+        X_input = pd.DataFrame(
+            [[curr_conv, curr_roi, curr_clicks_lag, date.dayofweek]], 
+            columns=features
+        )
         res = rf.predict(X_input)[0] 
-        cpc_pred = mean_cost / mean_clicks
+        cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
         conversions.append(res[0])
@@ -233,7 +251,7 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     forecasting = go.Figure()
     forecasting.add_trace(go.Scatter(x=df_ts_recent["Date"], y=df_ts_recent["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(0, 0, 255, 0.2)", name="Conversiones Históricas"))
     forecasting.add_trace(go.Scatter(x=df_forecast["Date"], y=df_forecast["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(255, 165, 0, 0.2)", name="Pronóstico de 14 días"))
-    forecasting.update_layout(title_text=" ", yaxis_title=" ")
+    forecasting.update_layout(template="plotly_white", margin=dict(l=20, r=20, t=40, b=20))
     
     ROI = round(df_forecast["ROI"].mean(), 2)
     CVR = round(df_forecast["CVR"].mean(), 2)
