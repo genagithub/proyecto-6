@@ -5,7 +5,7 @@ El equipo de marketing digital busca predecir el impacto de diferentes modelos p
 
 ---
 
-#### 💡 Hallazgos Clave de la Investigación (Adiós a la Estacionalidad, Hola al Contexto)
+#### 💡 Hallazgos Clave de la Investigación (Causalidades no Temporales)
 El análisis estadístico de las series temporales reveló una estructura atípica en el comportamiento de las conversiones:
 - **Tendencia Nula y Estacionariedad Evidente:** Los datos muestran una fluctuación constante alrededor de una media fija, sin una dirección de crecimiento o decrecimiento a lo largo del tiempo.
 - **Influencia del Contexto sobre Patrones Estacionales:** Los correlogramas presentaron barras rezagadas muy cortas que oscilan cerca del cero sin un orden claro. Esto confirma la ausencia de ciclos calendarios tradicionales. El volumen de conversión se comporta como eventos independientes discontinuos, impulsados estrictamente por la relevancia del mensaje y el contexto de la oferta.
