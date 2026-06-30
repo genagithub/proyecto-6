@@ -37,6 +37,11 @@ vars = [
     {"label":"Locación","value":"Location"}
 ]
 
+rf = RandomForestRegressor(n_estimators=200, 
+                           max_depth=10,        
+                           min_samples_leaf=3,   
+                           random_state=42)
+
 app = dash.Dash(__name__)
 server = app.server
 
@@ -111,7 +116,8 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
     Input(component_id="dropdown_var4",component_property="value")]
 )
 
-def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_location):
+
+def update_dashboard(slct_var, slct_campaign, slct_company, slct_channel, slct_location):
     
     campaign_style = {"position":"absolute","top":"0","left":"0"}
     company_style = {"position":"absolute","top":"0","left":"0"}
@@ -158,16 +164,9 @@ def update_graph(slct_var, slct_campaign, slct_company, slct_channel, slct_locat
     targets = ["Conversions", "ROI", "Conversion_Rate"]
     
     X = df_model[features]
-    y = df_model[targets]
-    
-    rf = RandomForestRegressor(
-        n_estimators=200, 
-        max_depth=10,        
-        min_samples_leaf=3,   
-        random_state=42
-    )
+    y = df_model[targets]    
     rf.fit(X, y)
-    
+
     importance = rf.feature_importances_
     
     df_imp = pd.DataFrame({
