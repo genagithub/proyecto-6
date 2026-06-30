@@ -37,10 +37,10 @@ vars = [
     {"label":"Locación","value":"Location"}
 ]
 
-rf = RandomForestRegressor(n_estimators=200, 
-                           max_depth=10,        
-                           min_samples_leaf=3,   
-                           random_state=42)
+random_forest_forecast = RandomForestRegressor(n_estimators=200, 
+                                               max_depth=10,        
+                                               min_samples_leaf=3,   
+                                               random_state=42)
 
 app = dash.Dash(__name__)
 server = app.server
@@ -152,7 +152,6 @@ def update_dashboard(slct_var, slct_campaign, slct_company, slct_channel, slct_l
     df_ts["CPC"] = (df_ts["Acquisition_Cost"] / df_ts["Clicks"]).replace([np.inf, -np.inf], 0).fillna(0)
     df_ts["CPM"] = ((df_ts["Acquisition_Cost"] / df_ts["Impressions"]) * 1000).replace([np.inf, -np.inf], 0).fillna(0)
 
-    # Construcción de los Lags históricos
     df_ts["Conv_Lag1"] = df_ts["Conversions"].shift(1)
     df_ts["ROI_Lag1"] = df_ts["ROI"].shift(1)
     df_ts["Clicks_Lag1"] = df_ts["Clicks"].shift(1)
@@ -165,9 +164,9 @@ def update_dashboard(slct_var, slct_campaign, slct_company, slct_channel, slct_l
     
     X = df_model[features]
     y = df_model[targets]    
-    rf.fit(X, y)
+    random_forest_forecast.fit(X, y)
 
-    importance = rf.feature_importances_
+    importance = random_forest_forecast.feature_importances_
     
     df_imp = pd.DataFrame({
         "factor": features, 
@@ -226,7 +225,7 @@ def update_dashboard(slct_var, slct_campaign, slct_company, slct_channel, slct_l
             [[curr_conv, curr_roi, curr_clicks_lag, date.dayofweek]], 
             columns=features
         )
-        res = rf.predict(X_input)[0] 
+        res = random_forest_forecast.predict(X_input)[0] 
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
