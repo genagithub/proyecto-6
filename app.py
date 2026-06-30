@@ -221,10 +221,7 @@ def update_dashboard(slct_var, slct_campaign, slct_company, slct_channel, slct_l
     curr_conv, curr_roi, curr_clicks_lag = last_conv, last_roi, mean_clicks
 
     for date in future_dates:
-        X_input = pd.DataFrame(
-            [[curr_conv, curr_roi, curr_clicks_lag, date.dayofweek]], 
-            columns=features
-        )
+        X_input = pd.DataFrame([[curr_conv, curr_roi, curr_clicks_lag, date.dayofweek]], columns=features)
         res = random_forest_forecast.predict(X_input)[0] 
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
