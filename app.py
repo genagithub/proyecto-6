@@ -116,6 +116,7 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
     Input(component_id="dropdown_var4",component_property="value")]
 )
 
+
 def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_location):
     
     campaign_style = {"position":"absolute","top":"0","left":"0"}
@@ -209,7 +210,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     future_dates = pd.date_range(df_model["Date"].max() + pd.Timedelta(days=1), periods=14)
     
     last_row = df_model.iloc[-1]
-    
+
     mean_cost = df_ts["Acquisition_Cost"].mean()
     mean_clicks = df_ts["Clicks"].mean()
     
@@ -263,6 +264,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     CPC = round(df_forecast["CPC"].mean(), 2)
 
     return factor_top_text, value_top_text, bar_chart, campaign_style, company_style, channel_style, location_style, forecasting, ROI, CVR, CPC
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8050)) 
