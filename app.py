@@ -159,10 +159,12 @@ def update_dashboard(slct_var, slct_campaign, slct_company, slct_channel, slct_l
     
     df_model = df_ts.dropna()
 
-    features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week"]
+    all_categorical_vars = ["Campaign_Type", "Company", "Channel_Used", "Location"]
+    categorical_features = [v for v in all_categorical_vars if v != slct_var]
+    numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week"]
     targets = ["Conversions", "ROI", "Conversion_Rate"]
     
-    X = df_model[features]
+    X = df_model[numerical_features + categorical_features]
     y = df_model[targets]    
     random_forest_forecast.fit(X, y)
 
