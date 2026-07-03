@@ -139,7 +139,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     all_categorical_vars = ["Campaign_Type", "Company", "Channel_Used", "Location"]
     categorical_features = [v for v in all_categorical_vars if v != slct_var]
     
-    df_ts = df_segment.groupby("Date" + categorical_features).agg({
+    df_ts = df_segment.groupby(["Date"] + categorical_features).agg({
         "Conversions": "sum",
         "Acquisition_Cost": "sum",
         "Clicks": "sum",
@@ -161,7 +161,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     
     df_model = df_ts.dropna()
 
-    numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week"]
+    numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
     targets = ["Conversions", "ROI", "Conversion_Rate"]
     
     X_raw = df_model[numerical_features + categorical_features]
@@ -206,29 +206,33 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         template="plotly_white"
     )
 
-    future_dates = pd.date_range(df_ts["Date"].max() + pd.Timedelta(days=1), periods=14)
+    future_dates = pd.date_range(df_model["Date"].max() + pd.Timedelta(days=1), periods=14)
     
-    last_date = df_ts["Date"].iloc[-1]
-    last_conv = df_ts["Conversions"].iloc[-1]
-    last_roi = df_ts["ROI"].iloc[-1]
-    last_cvr = df_ts["Conversion_Rate"].mean() 
+    last_row = df_model.iloc[-1]
     
     mean_cost = df_ts["Acquisition_Cost"].mean()
     mean_clicks = df_ts["Clicks"].mean()
     
     last_cpc = mean_cost / mean_clicks if mean_clicks > 0 else 0
 
-    dates = [last_date]
-    conversions = [last_conv]
-    ROIs = [last_roi]
-    CVRs = [last_cvr]
+    dates = [last_row["Date"]]
+    conversions = [last_row["Conversions"]]
+    ROIs = [last_row["ROI"]]
+    CVRs = [last_row["Conversion_Rate"]]
     CPCs = [last_cpc]
     
-    curr_conv, curr_roi, curr_clicks_lag = last_conv, last_roi, mean_clicks
+    curr_conv = last_row["Conversions"]
+    curr_roi = last_row["ROI"]
+    curr_clicks_lag = mean_clicks
+    curr_ctr = last_row["CTR"]
+    curr_cpc = last_row["CPC"]
+    curr_cpm = last_row["CPM"]
+    
+    dummy_context_row = X.iloc[[-1]].copy()
 
     for date in future_dates:
-        X_input = pd.DataFrame([[curr_conv, curr_roi, curr_clicks_lag, date.dayofweek]], columns=features)
-        res = random_forest_forecast.predict(X_input)[0] 
+        dummy_context_row[numerical_features] = [[curr_conv, curr_roi, curr_clicks_lag, date.dayofweek, curr_ctr, curr_cpc, curr_cpm]]
+        res = random_forest_forecast.predict(dummy_context_row)[0] 
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
