@@ -163,7 +163,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week"]
     targets = ["Conversions", "ROI", "Conversion_Rate"]
     
-    X = df_model[numerical_features + categorical_features]
+    X_raw = df_model[numerical_features + categorical_features]
     y = df_model[targets]    
 
     X = pd.get_dummies(X_raw, columns=categorical_features)
