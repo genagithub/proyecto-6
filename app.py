@@ -116,8 +116,7 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
     Input(component_id="dropdown_var4",component_property="value")]
 )
 
-
-def update_dashboard(slct_var, slct_campaign, slct_company, slct_channel, slct_location):
+def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_location):
     
     campaign_style = {"position":"absolute","top":"0","left":"0"}
     company_style = {"position":"absolute","top":"0","left":"0"}
