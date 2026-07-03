@@ -166,12 +166,16 @@ def update_dashboard(slct_var, slct_campaign, slct_company, slct_channel, slct_l
     
     X = df_model[numerical_features + categorical_features]
     y = df_model[targets]    
+
+    X = pd.get_dummies(X_raw, columns=categorical_features)
+    final_features = list(X.columns)
+    
     random_forest_forecast.fit(X, y)
 
     importance = random_forest_forecast.feature_importances_
     
     df_imp = pd.DataFrame({
-        "factor": features, 
+        "factor": final_features, 
         "importance": importance
     }).sort_values(by="importance", ascending=True)
 
