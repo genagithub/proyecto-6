@@ -162,12 +162,16 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
 
     df_model = df_ts.dropna()
 
+    if df_model.empty:
+        raise PreventUpdate
+
     numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
     targets = ["Conversions", "ROI", "Conversion_Rate"]
 
     X_raw = df_model[numerical_features + categorical_features]
     y = df_model[targets]
     X = pd.get_dummies(X_raw, columns=categorical_features)
+    
     if hasattr(random_forest_forecast, "feature_names_in_"):
         X = X.reindex(columns=random_forest_forecast.feature_names_in_, fill_value=0)
 
@@ -231,7 +235,14 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     dummy_context_row = X.iloc[[-1]].copy()
 
     for date in future_dates:
-        dummy_context_row[numerical_features] = [[curr_conv, curr_roi, curr_clicks_lag, date.dayofweek, curr_ctr, curr_cpc, curr_cpm]]
+        dummy_context_row["Conv_Lag1"] = curr_conv
+        dummy_context_row["ROI_Lag1"] = curr_roi
+        dummy_context_row["Clicks_Lag1"] = curr_clicks_lag
+        dummy_context_row["day_of_week"] = date.dayofweek
+        dummy_context_row["CTR"] = curr_ctr
+        dummy_context_row["CPC"] = curr_cpc
+        dummy_context_row["CPM"] = curr_cpm
+        
         res_raw = random_forest_forecast.predict(dummy_context_row)
         
         pred_conv = res_raw[0][0]
