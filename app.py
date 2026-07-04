@@ -230,16 +230,21 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
 
     for date in future_dates:
         dummy_context_row[numerical_features] = [[curr_conv, curr_roi, curr_clicks_lag, date.dayofweek, curr_ctr, curr_cpc, curr_cpm]]
-        res = random_forest_forecast.predict(dummy_context_row)[0] 
+        res_raw = random_forest_forecast.predict(dummy_context_row)
+        
+        pred_conv = res_raw[0][0]
+        pred_roi = res_raw[0][1]
+        pred_cvr = res_raw[0][2]
+        
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
-        conversions.append(res[0])
-        ROIs.append(res[1])
-        CVRs.append(res[2])
+        conversions.append(pred_conv)
+        ROIs.append(pred_roi)
+        CVRs.append(pred_cvr)
         CPCs.append(cpc_pred)
     
-        curr_conv, curr_roi = res[0], res[1]
+        curr_conv, curr_roi = pred_conv, pred_roi
         
     df_forecast = pd.DataFrame({
         "Date": dates,
