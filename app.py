@@ -37,9 +37,9 @@ vars = [
     {"label":"Locación","value":"Location"}
 ]
 
-random_forest_forecast = RandomForestRegressor(n_estimators=200, 
-                                               max_depth=10,        
-                                               min_samples_leaf=3,   
+random_forest_forecast = RandomForestRegressor(n_estimators=100, 
+                                               max_depth=6,        
+                                               min_samples_leaf=5,   
                                                random_state=42)
 
 app = dash.Dash(__name__)
