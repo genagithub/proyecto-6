@@ -190,7 +190,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "Variable")
 
     bar_chart = px.bar(
-        df_imp, 
+        df_imp.tail(3), 
         x="importance", 
         y="factor", 
         orientation="h",
