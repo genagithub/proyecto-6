@@ -245,9 +245,9 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         
         res_raw = random_forest_forecast.predict(dummy_context_row)
         
-        pred_conv = res_raw[0][0]
-        pred_roi = res_raw[0][1]
-        pred_cvr = res_raw[0][2]
+        pred_conv = res_raw[0, 0]
+        pred_roi = res_raw[0, 1]
+        pred_cvr = res_raw[0, 2]
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
