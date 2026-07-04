@@ -124,28 +124,18 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     channel_style = {"position":"absolute","top":"0","left":"0"}
     location_style = {"position":"absolute","top":"0","left":"0"}
 
-    if not slct_var:
-        return "-", "-", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), "0.0", "0.0", "0.0"
-
     if slct_var == "Campaign_Type":
         campaign_style["zIndex"] = 5
-        campaign_style["display"] = "block"
         df_segment = df[df[slct_var] == slct_campaign].copy()
     elif slct_var == "Company":
         company_style["zIndex"] = 5
-        company_style["display"] = "block"
         df_segment = df[df[slct_var] == slct_company].copy()
     elif slct_var == "Channel_Used":
         channel_style["zIndex"] = 5
-        channel_style["display"] = "block"
         df_segment = df[df[slct_var] == slct_channel].copy()
     else:
         location_style["zIndex"] = 5
-        location_style["display"] = "block"
         df_segment = df[df[slct_var] == slct_location].copy()
-
-    if df_segment.empty:
-        return "Sin Datos", "-", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), "0.0", "0.0", "0.0"
 
     all_categorical_vars = ["Campaign_Type", "Company", "Channel_Used", "Location"]
     categorical_features = [v for v in all_categorical_vars if v != slct_var]
