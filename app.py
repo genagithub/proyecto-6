@@ -123,19 +123,37 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     company_style = {"position":"absolute","top":"0","left":"0"}
     channel_style = {"position":"absolute","top":"0","left":"0"}
     location_style = {"position":"absolute","top":"0","left":"0"}
-    
-    if slct_var == "Campaign_Type":        
-        campaign_style["zIndex"] = 5   
+
+    if not slct_var:
+        return "-", "-", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), "0.0", "0.0", "0.0"
+
+    if slct_var == "Campaign_Type":
+        campaign_style["zIndex"] = 5
+        campaign_style["display"] = "block"
+        if not slct_campaign: 
+            return "Seleccione Campaña", "-", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), "0.0", "0.0", "0.0"
         df_segment = df[df[slct_var] == slct_campaign].copy()
     elif slct_var == "Company":
         company_style["zIndex"] = 5
+        company_style["display"] = "block"
+        if not slct_company: 
+            return "Seleccione Empresa", "-", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), "0.0", "0.0", "0.0"
         df_segment = df[df[slct_var] == slct_company].copy()
-    elif slct_var == "Channel_Used":        
+    elif slct_var == "Channel_Used":
         channel_style["zIndex"] = 5
+        channel_style["display"] = "block"
+        if not slct_channel: 
+            return "Seleccione Canal", "-", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), "0.0", "0.0", "0.0"
         df_segment = df[df[slct_var] == slct_channel].copy()
-    else:        
+    else:
         location_style["zIndex"] = 5
+        location_style["display"] = "block"
+        if not slct_location: 
+            return "Seleccione Ubicación", "-", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), "0.0", "0.0", "0.0"
         df_segment = df[df[slct_var] == slct_location].copy()
+
+    if df_segment.empty:
+        return "Sin Datos", "-", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), "0.0", "0.0", "0.0"
 
     all_categorical_vars = ["Campaign_Type", "Company", "Channel_Used", "Location"]
     categorical_features = [v for v in all_categorical_vars if v != slct_var]
@@ -208,12 +226,10 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     )
 
     future_dates = pd.date_range(df_model["Date"].max() + pd.Timedelta(days=1), periods=14)
-    
     last_row = df_model.iloc[-1]
 
     mean_cost = df_ts["Acquisition_Cost"].mean()
     mean_clicks = df_ts["Clicks"].mean()
-    
     last_cpc = mean_cost / mean_clicks if mean_clicks > 0 else 0
 
     dates = [last_row["Date"]]
