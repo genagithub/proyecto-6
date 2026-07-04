@@ -162,9 +162,6 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
 
     df_model = df_ts.dropna()
 
-    if df_model.empty:
-        raise PreventUpdate
-
     numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
     targets = ["Conversions", "ROI", "Conversion_Rate"]
 
