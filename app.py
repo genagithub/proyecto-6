@@ -177,12 +177,11 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     
     X_raw = df_model[numerical_features + categorical_features]
     y = df_model[targets]    
-
     X = pd.get_dummies(X_raw, columns=categorical_features)
-    final_features = list(X.columns)
     
     random_forest_forecast.fit(X, y)
 
+    final_features = list(X.columns)
     importance = random_forest_forecast.feature_importances_
     
     df_imp = pd.DataFrame({
