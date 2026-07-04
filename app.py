@@ -168,6 +168,8 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     X_raw = df_model[numerical_features + categorical_features]
     y = df_model[targets]
     X = pd.get_dummies(X_raw, columns=categorical_features)
+    if hasattr(random_forest_forecast, "feature_names_in_"):
+        X = X.reindex(columns=random_forest_forecast.feature_names_in_, fill_value=0)
 
     random_forest_forecast.fit(X, y)
 
@@ -235,7 +237,6 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         pred_conv = res_raw[0][0]
         pred_roi = res_raw[0][1]
         pred_cvr = res_raw[0][2]
-        
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
