@@ -14,6 +14,7 @@ import plotly.express as px
 import dash
 from dash import html, dcc
 from dash.dependencies import Output, Input
+from dash.exceptions import PreventUpdate
 
 
 df = pd.read_csv("data/marketing_campaign.csv")
@@ -37,10 +38,9 @@ vars = [
     {"label":"Locación","value":"Location"}
 ]
 
-random_forest_forecast = RandomForestRegressor(n_estimators=100, 
-                                               max_depth=6,        
-                                               min_samples_leaf=5,   
-                                               random_state=42)
+rf_conv = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
+rf_roi = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
+rf_cvr = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
 
 app = dash.Dash(__name__)
 server = app.server
@@ -116,13 +116,12 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
     Input(component_id="dropdown_var4",component_property="value")]
 )
 
-
 def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_location):
     
-    campaign_style = {"position":"absolute","top":"0","left":"0"}
-    company_style = {"position":"absolute","top":"0","left":"0"}
-    channel_style = {"position":"absolute","top":"0","left":"0"}
-    location_style = {"position":"absolute","top":"0","left":"0"}
+    campaign_style = {"position":"absolute","top":"0","left":"0", "zIndex": 1}
+    company_style = {"position":"absolute","top":"0","left":"0", "zIndex": 1}
+    channel_style = {"position":"absolute","top":"0","left":"0", "zIndex": 1}
+    location_style = {"position":"absolute","top":"0","left":"0", "zIndex": 1}
 
     if slct_var == "Campaign_Type":
         campaign_style["zIndex"] = 5
@@ -136,6 +135,9 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     else:
         location_style["zIndex"] = 5
         df_segment = df[df[slct_var] == slct_location].copy()
+
+    if df_segment.empty or len(df_segment) < 3:
+        return "Sin datos", "0%", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), 0, 0, 0
 
     all_categorical_vars = ["Campaign_Type", "Company", "Channel_Used", "Location"]
     categorical_features = [v for v in all_categorical_vars if v != slct_var]
@@ -161,22 +163,21 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     df_ts["day_of_week"] = df_ts["Date"].dt.dayofweek
 
     df_model = df_ts.dropna()
+    
+    if df_model.empty:
+        return "Datos insuficientes (lags)", "0%", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), 0, 0, 0
 
     numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
-    targets = ["Conversions", "ROI", "Conversion_Rate"]
 
     X_raw = df_model[numerical_features + categorical_features]
-    y = df_model[targets]
     X = pd.get_dummies(X_raw, columns=categorical_features)
     
-    if hasattr(random_forest_forecast, "feature_names_in_"):
-        X = X.reindex(columns=random_forest_forecast.feature_names_in_, fill_value=0)
-
-    random_forest_forecast.fit(X, y)
+    rf_conv.fit(X, df_model["Conversions"])
+    rf_roi.fit(X, df_model["ROI"])
+    rf_cvr.fit(X, df_model["Conversion_Rate"])
 
     final_features = list(X.columns)
-    importance = random_forest_forecast.feature_importances_
-
+    importance = rf_conv.feature_importances_  
     df_imp = pd.DataFrame({
         "factor": final_features,
         "importance": importance
@@ -186,8 +187,8 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     factor_top = df_imp.loc[idx_max_imp, "factor"]
     value_top = round(df_imp.loc[idx_max_imp, "importance"] * 100, 1)
 
-    factor_top_text = f"Impulsor Principal: {factor_top}"
-    value_top_text = f"Influencia en el Éxito: {value_top}%"
+    factor_top_text = f"Impulsor principal: {factor_top}"
+    value_top_text = f"Influencia en el éxito: {value_top}%"
     
     slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "Variable")
 
@@ -229,7 +230,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     curr_cpc = last_row["CPC"]
     curr_cpm = last_row["CPM"]
     
-    dummy_context_row = X.iloc[[-1]].copy()
+    dummy_context_row = X.iloc[[[-1]]].copy()
 
     for date in future_dates:
         dummy_context_row["Conv_Lag1"] = curr_conv
@@ -240,11 +241,11 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         dummy_context_row["CPC"] = curr_cpc
         dummy_context_row["CPM"] = curr_cpm
         
-        res_raw = random_forest_forecast.predict(dummy_context_row)
+        dummy_context_row = dummy_context_row[X.columns]
         
-        pred_conv = res_raw[0, 0]
-        pred_roi = res_raw[0, 1]
-        pred_cvr = res_raw[0, 2]
+        pred_conv = max(0, rf_conv.predict(dummy_context_row)[0]) 
+        pred_roi = rf_roi.predict(dummy_context_row)[0]
+        pred_cvr = rf_cvr.predict(dummy_context_row)[0]
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
@@ -266,15 +267,15 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     df_ts_recent = df_ts[df_ts["Date"] >= "2021-09-01"]
     
     forecasting = go.Figure()
-    forecasting.add_trace(go.Scatter(x=df_ts_recent["Date"], y=df_ts_recent["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(0, 0, 255, 0.2)", name="Conversiones Históricas"))
-    forecasting.add_trace(go.Scatter(x=df_forecast["Date"], y=df_forecast["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(255, 165, 0, 0.2)", name="Pronóstico de 14 días"))
-    forecasting.update_layout(template="plotly_white", margin=dict(l=20, r=20, t=40, b=20))
+    forecasting.add_trace(go.Scatter(x=df_ts_recent["Date"], y=df_ts_recent["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(0, 0, 255, 0.15)", name="Conversiones Históricas"))
+    forecasting.add_trace(go.Scatter(x=df_forecast["Date"], y=df_forecast["Conversions"], mode="lines+markers", fill="tozeroy", fillcolor="rgba(255, 165, 0, 0.15)", name="Pronóstico de 14 días"))
+    forecasting.update_layout(template="plotly_white", margin=dict(l=20, r=20, t=40, b=20), xaxis_title="Fecha", yaxis_title="Conversiones")
     
-    ROI = round(df_forecast["ROI"].mean(), 2)
-    CVR = round(df_forecast["CVR"].mean(), 2)
-    CPC = round(df_forecast["CPC"].mean(), 2)
+    ROI_val = round(df_forecast["ROI"].mean(), 2)
+    CVR_val = round(df_forecast["CVR"].mean(), 2)
+    CPC_val = round(df_forecast["CPC"].mean(), 2)
 
-    return factor_top_text, value_top_text, bar_chart, campaign_style, company_style, channel_style, location_style, forecasting, ROI, CVR, CPC
+    return factor_top_text, value_top_text, bar_chart, campaign_style, company_style, channel_style, location_style, forecasting, ROI_val, CVR_val, CPC_val
 
 
 if __name__ == "__main__":
