@@ -176,19 +176,16 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     rf_roi.fit(X, df_model["ROI"])
     rf_cvr.fit(X, df_model["Conversion_Rate"])
 
-    final_features = list(X.columns)
     importance = rf_conv.feature_importances_  
+    
     df_imp = pd.DataFrame({
-        "factor": final_features,
+        "factor": list(X.columns),
         "importance": importance
     }).sort_values(by="importance", ascending=True)
 
-    idx_max_imp = df_imp["importance"].idxmax()
-    factor_top = df_imp.loc[idx_max_imp, "factor"]
-    value_top = round(df_imp.loc[idx_max_imp, "importance"] * 100, 1)
-
-    factor_top_text = f"Impulsor principal: {factor_top}"
-    value_top_text = f"Influencia en el éxito: {value_top}%"
+    top_row = df_imp.iloc[-1]
+    factor_top_text = f"Impulsor principal: {top_row["factor"]}"
+    value_top_text = f"Influencia en el éxito: {round(top_row["importance"] * 100, 1)}%"
     
     slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "Variable")
 
@@ -212,25 +209,13 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
 
     future_dates = pd.date_range(df_model["Date"].max() + pd.Timedelta(days=1), periods=14)
     last_row = df_model.iloc[-1]
-
-    mean_cost = df_ts["Acquisition_Cost"].mean()
-    mean_clicks = df_ts["Clicks"].mean()
+    mean_cost, mean_clicks = df_ts["Acquisition_Cost"].mean(), df_ts["Clicks"].mean()
     last_cpc = mean_cost / mean_clicks if mean_clicks > 0 else 0
 
-    dates = [last_row["Date"]]
-    conversions = [last_row["Conversions"]]
-    ROIs = [last_row["ROI"]]
-    CVRs = [last_row["Conversion_Rate"]]
-    CPCs = [last_cpc]
+    dates, conversions, ROIs, CVRs, CPCs = [last_row["Date"]], [last_row["Conversions"]], [last_row["ROI"]], [last_row["Conversion_Rate"]], [last_cpc]
+    curr_conv, curr_roi, curr_clicks_lag, curr_ctr, curr_cpc, curr_cpm = last_row["Conversions"], last_row["ROI"], mean_clicks, last_row["CTR"], last_row["CPC"], last_row["CPM"]
     
-    curr_conv = last_row["Conversions"]
-    curr_roi = last_row["ROI"]
-    curr_clicks_lag = mean_clicks
-    curr_ctr = last_row["CTR"]
-    curr_cpc = last_row["CPC"]
-    curr_cpm = last_row["CPM"]
-    
-    dummy_context_row = X.iloc[[[-1]]].copy()
+    dummy_context_row = X.iloc[[-1]].copy()
 
     for date in future_dates:
         dummy_context_row["Conv_Lag1"] = curr_conv
@@ -271,9 +256,9 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     forecasting.add_trace(go.Scatter(x=df_forecast["Date"], y=df_forecast["Conversions"], mode="lines+markers", fill="tozeroy", fillcolor="rgba(255, 165, 0, 0.15)", name="Pronóstico de 14 días"))
     forecasting.update_layout(template="plotly_white", margin=dict(l=20, r=20, t=40, b=20), xaxis_title="Fecha", yaxis_title="Conversiones")
     
-    ROI_val = round(df_forecast["ROI"].mean(), 2)
-    CVR_val = round(df_forecast["CVR"].mean(), 2)
-    CPC_val = round(df_forecast["CPC"].mean(), 2)
+    ROI_val = str(round(df_forecast["ROI"].mean(), 2))
+    CVR_val = str(round(df_forecast["CVR"].mean(), 2))
+    CPC_val = str(round(df_forecast["CPC"].mean(), 2))
 
     return factor_top_text, value_top_text, bar_chart, campaign_style, company_style, channel_style, location_style, forecasting, ROI_val, CVR_val, CPC_val
 
