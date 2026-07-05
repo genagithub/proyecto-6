@@ -23,6 +23,43 @@ df["Acquisition_Cost"] = df["Acquisition_Cost"].str.replace('$', '', regex=False
 df["Acquisition_Cost"] = pd.to_numeric(df["Acquisition_Cost"])
 df["Conversions"] = round(df["Clicks"] * (df["Conversion_Rate"] / 100))
 
+all_categorical_vars = ["Campaign_Type", "Company", "Channel_Used", "Location"]
+
+df_global_ts = df.groupby(["Date"] + all_categorical_vars).agg({
+    "Conversions": "sum", 
+    "Acquisition_Cost": "sum", 
+    "Clicks": "sum",
+    "Impressions": "sum", 
+    "ROI": "mean", 
+    "Conversion_Rate": "mean"
+}).reset_index().sort_values("Date")
+
+df_global_ts["CTR"] = (df_global_ts["Clicks"] / df_global_ts["Impressions"]).fillna(0).replace([np.inf, -np.inf], 0)
+df_global_ts["CPC"] = (df_global_ts["Acquisition_Cost"] / df_global_ts["Clicks"]).fillna(0).replace([np.inf, -np.inf], 0)
+df_global_ts["CPM"] = ((df_global_ts["Acquisition_Cost"] / df_global_ts["Impressions"]) * 1000).fillna(0).replace([np.inf, -np.inf], 0)
+
+df_global_ts["Conv_Lag1"] = df_global_ts["Conversions"].shift(1)
+df_global_ts["ROI_Lag1"] = df_global_ts["ROI"].shift(1)
+df_global_ts["Clicks_Lag1"] = df_global_ts["Clicks"].shift(1)
+df_global_ts["day_of_week"] = df_global_ts["Date"].dt.dayofweek
+
+df_global_model = df_global_ts.dropna()
+
+numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
+
+X_global_raw = df_global_model[numerical_features + all_categorical_vars]
+X_global = pd.get_dummies(X_raw=X_global_raw, columns=all_categorical_vars)
+
+final_features = list(X_global.columns)
+
+rf_conv = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
+rf_roi = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
+rf_cvr = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
+
+rf_conv.fit(X_global, df_global_model["Conversions"])
+rf_roi.fit(X_global, df_global_model["ROI"])
+rf_cvr.fit(X_global, df_global_model["Conversion_Rate"])
+
 factor_top_b = html.B(children=[], id="factor")
 value_top_b = html.B(children=[], id="value")
 
@@ -36,10 +73,6 @@ vars = [
     {"label":"Canal usado","value":"Channel_Used"},
     {"label":"Locación","value":"Location"}
 ]
-
-rf_conv = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
-rf_roi = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
-rf_cvr = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
 
 app = dash.Dash(__name__)
 server = app.server
@@ -138,24 +171,18 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     if df_segment.empty or len(df_segment) < 3:
         return "Sin datos", "0%", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), 0, 0, 0
 
-    all_categorical_vars = ["Campaign_Type", "Company", "Channel_Used", "Location"]
-    categorical_features = [v for v in all_categorical_vars if v != slct_var]
-
-    df_ts = df_segment.groupby(["Date"] + categorical_features).agg({
-        "Conversions": "sum",
-        "Acquisition_Cost": "sum",
+    df_ts = df_segment.groupby(["Date"] + all_categorical_vars).agg({
+        "Conversions": "sum", 
+        "Acquisition_Cost": "sum", 
         "Clicks": "sum",
-        "Impressions": "sum",
-        "ROI": "mean",
+        "Impressions": "sum", 
+        "ROI": "mean", 
         "Conversion_Rate": "mean"
     }).reset_index().sort_values("Date")
-
-    df_ts["Date"] = pd.to_datetime(df_ts["Date"])
 
     df_ts["CTR"] = (df_ts["Clicks"] / df_ts["Impressions"]).replace([np.inf, -np.inf], 0).fillna(0)
     df_ts["CPC"] = (df_ts["Acquisition_Cost"] / df_ts["Clicks"]).replace([np.inf, -np.inf], 0).fillna(0)
     df_ts["CPM"] = ((df_ts["Acquisition_Cost"] / df_ts["Impressions"]) * 1000).replace([np.inf, -np.inf], 0).fillna(0)
-
     df_ts["Conv_Lag1"] = df_ts["Conversions"].shift(1)
     df_ts["ROI_Lag1"] = df_ts["ROI"].shift(1)
     df_ts["Clicks_Lag1"] = df_ts["Clicks"].shift(1)
@@ -166,19 +193,18 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     if df_model.empty:
         return "Datos insuficientes (lags)", "0%", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), 0, 0, 0
 
+    last_row_raw = df_model.iloc[[-1]][numerical_features + all_categorical_vars]
+    X_segment_dummies = pd.get_dummies(last_row_raw, columns=all_categorical_vars)
+    dummy_context_row = X_segment_dummies.reindex(columns=final_features, fill_value=0)
     numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
-
+    
     X_raw = df_model[numerical_features + categorical_features]
     X = pd.get_dummies(X_raw, columns=categorical_features)
     
-    rf_conv.fit(X, df_model["Conversions"])
-    rf_roi.fit(X, df_model["ROI"])
-    rf_cvr.fit(X, df_model["Conversion_Rate"])
-
     importance = rf_conv.feature_importances_  
     
     df_imp = pd.DataFrame({
-        "factor": list(X.columns),
+        "factor": final_features,
         "importance": importance
     }).sort_values(by="importance", ascending=True)
 
@@ -225,7 +251,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         dummy_context_row["CPC"] = curr_cpc
         dummy_context_row["CPM"] = curr_cpm
         
-        dummy_context_row = dummy_context_row[X.columns]
+        dummy_context_row = dummy_context_row[final_feaures]
         
         pred_conv = max(0, rf_conv.predict(dummy_context_row)[0]) 
         pred_roi = rf_roi.predict(dummy_context_row)[0]
