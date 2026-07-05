@@ -14,7 +14,6 @@ import plotly.express as px
 import dash
 from dash import html, dcc
 from dash.dependencies import Output, Input
-from dash.exceptions import PreventUpdate
 
 
 df = pd.read_csv("data/marketing_campaign.csv")
