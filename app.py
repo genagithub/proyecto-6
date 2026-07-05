@@ -61,7 +61,7 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
         ]),
         dcc.Graph(id="conversions_analysis", figure={}, className="e6_graph_1", style={"width":"74%"})
     ]),
-    html.A(href="https://github.com/genagithub/proyecto-6/blob/main/forecating_por_dimensiones_personalizadas.ipynb", children=[html.H2("Proyección de conversiones (modelos promocionales)", id="H2", className="e6_title")]),
+    html.A(href="https://github.com/genagithub/proyecto-6/blob/main/README.md", children=[html.H2("Proyección de conversiones (modelos promocionales)", id="H2", className="e6_title")]),
     html.Div(id="forecast_div", className="e6_forecast_div", children=[
         html.Div(id="KPI_div_2", className="e6_KPI_div_2", children=[
             html.Div(className="e6_KPI_2", children=[html.P("ROI", className="e6_KPI_title"), html.P([ROI,"%"], className="e6_KPI_p")]),
