@@ -48,7 +48,7 @@ df_global_model = df_global_ts.dropna()
 numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
 
 X_global_raw = df_global_model[numerical_features + all_categorical_vars]
-X_global = pd.get_dummies(X_raw=X_global_raw, columns=all_categorical_vars)
+X_global = pd.get_dummies(X_global_raw, columns=all_categorical_vars)
 
 final_features = list(X_global.columns)
 
