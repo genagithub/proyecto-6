@@ -250,7 +250,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         dummy_pred_row["CPC"] = curr_cpc
         dummy_pred_row["CPM"] = curr_cpm
         
-        dummy_context_row = dummy_context_row[final_features]
+        dummy_pred_row = dummy_pred_row[final_features]
         
         pred_conv = max(0, rf_conv.predict(dummy_pred_row)[0]) 
         pred_roi = rf_roi.predict(dummy_pred_row)[0]
