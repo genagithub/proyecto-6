@@ -24,41 +24,7 @@ df["Acquisition_Cost"] = pd.to_numeric(df["Acquisition_Cost"])
 df["Conversions"] = round(df["Clicks"] * (df["Conversion_Rate"] / 100))
 
 all_categorical_vars = ["Campaign_Type", "Company", "Channel_Used", "Location"]
-
-df_global_ts = df.groupby(["Date"] + all_categorical_vars).agg({
-    "Conversions": "sum", 
-    "Acquisition_Cost": "sum", 
-    "Clicks": "sum",
-    "Impressions": "sum", 
-    "ROI": "mean", 
-    "Conversion_Rate": "mean"
-}).reset_index().sort_values("Date")
-
-df_global_ts["CTR"] = (df_global_ts["Clicks"] / df_global_ts["Impressions"]).fillna(0).replace([np.inf, -np.inf], 0)
-df_global_ts["CPC"] = (df_global_ts["Acquisition_Cost"] / df_global_ts["Clicks"]).fillna(0).replace([np.inf, -np.inf], 0)
-df_global_ts["CPM"] = ((df_global_ts["Acquisition_Cost"] / df_global_ts["Impressions"]) * 1000).fillna(0).replace([np.inf, -np.inf], 0)
-
-df_global_ts["Conv_Lag1"] = df_global_ts["Conversions"].shift(1)
-df_global_ts["ROI_Lag1"] = df_global_ts["ROI"].shift(1)
-df_global_ts["Clicks_Lag1"] = df_global_ts["Clicks"].shift(1)
-df_global_ts["day_of_week"] = df_global_ts["Date"].dt.dayofweek
-
-df_global_model = df_global_ts.dropna()
-
 numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
-
-X_global_raw = df_global_model[numerical_features + all_categorical_vars]
-X_global = pd.get_dummies(X_global_raw, columns=all_categorical_vars)
-
-final_features = list(X_global.columns)
-
-rf_conv = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
-rf_roi = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
-rf_cvr = RandomForestRegressor(n_estimators=100, max_depth=6, min_samples_leaf=5, random_state=42)
-
-rf_conv.fit(X_global, df_global_model["Conversions"])
-rf_roi.fit(X_global, df_global_model["ROI"])
-rf_cvr.fit(X_global, df_global_model["Conversion_Rate"])
 
 factor_top_b = html.B(children=[], id="factor")
 value_top_b = html.B(children=[], id="value")
@@ -188,14 +154,20 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     df_ts["Clicks_Lag1"] = df_ts["Clicks"].shift(1)
     df_ts["day_of_week"] = df_ts["Date"].dt.dayofweek
 
-    df_model = df_ts.dropna()
+    df_model = df_ts.dropna()    
     
-    if df_model.empty:
-        return "Datos insuficientes (lags)", "0%", go.Figure(), campaign_style, company_style, channel_style, location_style, go.Figure(), 0, 0, 0
+    remaining_categorical = [var for var in all_categorical_vars if var != slct_var]
+    X_raw = df_model[numerical_features + remaining_categorical]
+    X_dynamic = pd.get_dummies(X_raw, columns=remaining_categorical)
+    final_features_dynamic = list(X_dynamic.columns)
 
-    last_row_raw = df_model.iloc[[-1]][numerical_features + all_categorical_vars]
-    X_segment_dummies = pd.get_dummies(last_row_raw, columns=all_categorical_vars)
-    dummy_context_row = X_segment_dummies.reindex(columns=final_features, fill_value=0)
+    rf_conv = RandomForestRegressor(n_estimators=50, max_depth=5, random_state=42, n_jobs=1)
+    rf_roi = RandomForestRegressor(n_estimators=50, max_depth=5, random_state=42, n_jobs=1)
+    rf_cvr = RandomForestRegressor(n_estimators=50, max_depth=5, random_state=42, n_jobs=1)
+
+    rf_conv.fit(X_dynamic, df_model["Conversions"])
+    rf_roi.fit(X_dynamic, df_model["ROI"])
+    rf_cvr.fit(X_dynamic, df_model["Conversion_Rate"])
     
     importance = rf_conv.feature_importances_  
     
@@ -236,9 +208,6 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     dates, conversions, ROIs, CVRs, CPCs = [last_row["Date"]], [last_row["Conversions"]], [last_row["ROI"]], [last_row["Conversion_Rate"]], [last_cpc]
     curr_conv, curr_roi, curr_clicks_lag, curr_ctr, curr_cpc, curr_cpm = last_row["Conversions"], last_row["ROI"], mean_clicks, last_row["CTR"], last_row["CPC"], last_row["CPM"]
     
-    X_raw_segment = df_model[numerical_features + all_categorical_vars]
-    X_segment_full = pd.get_dummies(X_raw_segment, columns=all_categorical_vars)
-    X_segment_full = X_segment_full.reindex(columns=final_features, fill_value=0)
     dummy_pred_row = X_segment_full.iloc[[-1]].copy()
 
     for date in future_dates:
