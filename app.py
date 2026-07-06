@@ -159,7 +159,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     remaining_categorical = [var for var in all_categorical_vars if var != slct_var]
     X_raw = df_model[numerical_features + remaining_categorical]
     X_dynamic = pd.get_dummies(X_raw, columns=remaining_categorical)
-    final_features_dynamic = list(X_dynamic.columns)
+    final_features = list(X_dynamic.columns)
 
     rf_conv = RandomForestRegressor(n_estimators=50, max_depth=5, random_state=42, n_jobs=1)
     rf_roi = RandomForestRegressor(n_estimators=50, max_depth=5, random_state=42, n_jobs=1)
@@ -208,7 +208,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     dates, conversions, ROIs, CVRs, CPCs = [last_row["Date"]], [last_row["Conversions"]], [last_row["ROI"]], [last_row["Conversion_Rate"]], [last_cpc]
     curr_conv, curr_roi, curr_clicks_lag, curr_ctr, curr_cpc, curr_cpm = last_row["Conversions"], last_row["ROI"], mean_clicks, last_row["CTR"], last_row["CPC"], last_row["CPM"]
     
-    dummy_pred_row = X_segment_full.iloc[[-1]].copy()
+    dummy_pred_row = X_dynamic.iloc[[-1]].copy()
 
     for date in future_dates:
         dummy_pred_row["Conv_Lag1"] = curr_conv
