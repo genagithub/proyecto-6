@@ -197,9 +197,6 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     X_segment_dummies = pd.get_dummies(last_row_raw, columns=all_categorical_vars)
     dummy_context_row = X_segment_dummies.reindex(columns=final_features, fill_value=0)
     
-    X_raw = df_model[numerical_features + categorical_features]
-    X = pd.get_dummies(X_raw, columns=categorical_features)
-    
     importance = rf_conv.feature_importances_  
     
     df_imp = pd.DataFrame({
@@ -239,22 +236,25 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     dates, conversions, ROIs, CVRs, CPCs = [last_row["Date"]], [last_row["Conversions"]], [last_row["ROI"]], [last_row["Conversion_Rate"]], [last_cpc]
     curr_conv, curr_roi, curr_clicks_lag, curr_ctr, curr_cpc, curr_cpm = last_row["Conversions"], last_row["ROI"], mean_clicks, last_row["CTR"], last_row["CPC"], last_row["CPM"]
     
-    dummy_context_row = X.iloc[[-1]].copy()
+    X_raw_segment = df_model[numerical_features + all_categorical_vars]
+    X_segment_full = pd.get_dummies(X_raw_segment, columns=all_categorical_vars)
+    X_segment_full = X_segment_full.reindex(columns=final_features, fill_value=0)
+    dummy_pred_row = X_segment_full.iloc[[-1]].copy()
 
     for date in future_dates:
-        dummy_context_row["Conv_Lag1"] = curr_conv
-        dummy_context_row["ROI_Lag1"] = curr_roi
-        dummy_context_row["Clicks_Lag1"] = curr_clicks_lag
-        dummy_context_row["day_of_week"] = date.dayofweek
-        dummy_context_row["CTR"] = curr_ctr
-        dummy_context_row["CPC"] = curr_cpc
-        dummy_context_row["CPM"] = curr_cpm
+        dummy_pred_row["Conv_Lag1"] = curr_conv
+        dummy_pred_row["ROI_Lag1"] = curr_roi
+        dummy_pred_row["Clicks_Lag1"] = curr_clicks_lag
+        dummy_pred_row["day_of_week"] = date.dayofweek
+        dummy_pred_row["CTR"] = curr_ctr
+        dummy_pred_row["CPC"] = curr_cpc
+        dummy_pred_row["CPM"] = curr_cpm
         
         dummy_context_row = dummy_context_row[final_features]
         
-        pred_conv = max(0, rf_conv.predict(dummy_context_row)[0]) 
-        pred_roi = rf_roi.predict(dummy_context_row)[0]
-        pred_cvr = rf_cvr.predict(dummy_context_row)[0]
+        pred_conv = max(0, rf_conv.predict(dummy_pred_row)[0]) 
+        pred_roi = rf_roi.predict(dummy_pred_row)[0]
+        pred_cvr = rf_cvr.predict(dummy_pred_row)[0]
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
