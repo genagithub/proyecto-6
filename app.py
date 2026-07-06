@@ -208,8 +208,8 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     }).sort_values(by="importance", ascending=True)
 
     top_row = df_imp.iloc[-1]
-    factor_top_text = f"Impulsor principal: {top_row["factor"]}"
-    value_top_text = f"Influencia en el éxito: {round(top_row["importance"] * 100, 1)}%"
+    factor_top_text = f"Impulsor principal: {top_row['factor']}"
+    value_top_text = f"Influencia en el éxito: {round(top_row['importance'] * 100, 1)}%"
     
     slct_label = next((opt["label"] for opt in vars if opt["value"] == slct_var), "Variable")
 
