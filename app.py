@@ -166,7 +166,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     final_features = list(X.columns)
 
     random_forest_forecast.fit(X, y)
-    importance = random_forest_forecast.feature_importances_  
+    importance = np.mean([est.feature_importances_ for est in random_forest_forecast.estimators_], axis=0)
     
     df_imp = pd.DataFrame({
         "factor": final_features,
