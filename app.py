@@ -207,6 +207,11 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     
     dummy_pred_row = X.iloc[[-1]].copy()
 
+    y_pred_hist = random_forest_forecast.predict(X)[:, 0] 
+    residuals = df_model["Conversions"] - y_pred_hist
+    std_residual = residuals.std()
+    np.random.seed(42)
+  
     for date in future_dates:
         dummy_pred_row["Conv_Lag1"] = curr_conv
         dummy_pred_row["ROI_Lag1"] = curr_roi
@@ -216,13 +221,15 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         dummy_pred_row["CPC"] = curr_cpc
         dummy_pred_row["CPM"] = curr_cpm
         
-        res = random_forest_forecast.predict(dummy_pred_row[final_features])[0]
+        res = random_forest_forecast.predict(dummy_pred_row[final_features])
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
+
+        noise = np.random.normal(0, std_residual)
         
         dates.append(date)
-        conversions.append(res[0])
-        ROIs.append(res[1])
-        CVRs.append(res[2])
+        conversions.append(res[0][0] + noise)
+        ROIs.append(res[0][1])
+        CVRs.append(res[0][2])
         CPCs.append(cpc_pred)
     
         curr_conv, curr_roi = res[0], res[1]
