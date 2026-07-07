@@ -23,7 +23,7 @@ df["Acquisition_Cost"] = df["Acquisition_Cost"].str.replace('$', '', regex=False
 df["Acquisition_Cost"] = pd.to_numeric(df["Acquisition_Cost"])
 df["Conversions"] = round(df["Clicks"] * (df["Conversion_Rate"] / 100))
 
-numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPR"]
+numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
 
 factor_top_b = html.B(children=[], id="factor")
 value_top_b = html.B(children=[], id="value")
