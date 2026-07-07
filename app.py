@@ -225,14 +225,18 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
 
         noise = np.random.normal(0, std_residual)
-        
+
+        pred_conv = max(0, float(res[0][0]) + noise)
+        pred_roi = float(res[0][1])
+        pred_cvr = float(res[0][2])
+      
         dates.append(date)
-        conversions.append(res[0][0] + noise)
-        ROIs.append(res[0][1])
+        conversions.append(pred_conv)
+        ROIs.append(pred_roi)
         CVRs.append(res[0][2])
-        CPCs.append(cpc_pred)
+        CPCs.append(pred_cvr)
     
-        curr_conv, curr_roi = res[0], res[1]
+        curr_conv, curr_roi = pred_conv, pred_roi
         
     df_forecast = pd.DataFrame({
         "Date": dates,
