@@ -249,7 +249,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     df_ts_recent = df_ts[df_ts["Date"] >= "2021-10-01"]
     
     forecasting = go.Figure()
-    forecasting.add_trace(go.Scatter(x=df_ts_recent["Date"], y=df_ts_recent["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(0, 0, 255, 0.15)", name="Conversiones Históricas"))
+    forecasting.add_trace(go.Scatter(x=df_ts_recent["Date"], y=df_ts_recent["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(0, 0, 255, 0.15)", name="Conversiones (últimos 3 meses)"))
     forecasting.add_trace(go.Scatter(x=df_forecast["Date"], y=df_forecast["Conversions"], mode="lines+markers", fill="tozeroy", fillcolor="rgba(255, 165, 0, 0.15)", name="Pronóstico de 14 días"))
     forecasting.update_layout(template="plotly_white", margin=dict(l=20, r=20, t=40, b=20), xaxis_title="Fecha", yaxis_title="Conversiones")
     
