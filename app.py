@@ -238,7 +238,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         "CPC": CPCs
     })
 
-    df_ts_recent = df_ts[df_ts["Date"] >= "2021-09-01"]
+    df_ts_recent = df_ts[df_ts["Date"] >= "2021-10-01"]
     
     forecasting = go.Figure()
     forecasting.add_trace(go.Scatter(x=df_ts_recent["Date"], y=df_ts_recent["Conversions"], mode="lines", fill="tozeroy", fillcolor="rgba(0, 0, 255, 0.15)", name="Conversiones Históricas"))
