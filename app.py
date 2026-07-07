@@ -24,6 +24,12 @@ df["Acquisition_Cost"] = pd.to_numeric(df["Acquisition_Cost"])
 df["Conversions"] = round(df["Clicks"] * (df["Conversion_Rate"] / 100))
 
 numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
+targets = ["Conversions", "ROI", "Conversion_Rate"]
+
+random_forest_forecast = RandomForestRegressor(n_estimators=100, 
+                                               max_depth=6, 
+                                               random_state=42, 
+                                               n_jobs=1)
 
 factor_top_b = html.B(children=[], id="factor")
 value_top_b = html.B(children=[], id="value")
@@ -154,18 +160,13 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     df_ts["day_of_week"] = df_ts["Date"].dt.dayofweek
 
     df_model = df_ts.dropna()    
-    X_raw = df_model[numerical_features]
-    final_features = list(X_raw.columns)
-
-    rf_conv = RandomForestRegressor(n_estimators=100, max_depth=6, random_state=42, n_jobs=1)
-    rf_roi = RandomForestRegressor(n_estimators=100, max_depth=6, random_state=42, n_jobs=1)
-    rf_cvr = RandomForestRegressor(n_estimators=100, max_depth=6, random_state=42, n_jobs=1)
-
-    rf_conv.fit(X_raw, df_model["Conversions"])
-    rf_roi.fit(X_raw, df_model["ROI"])
-    rf_cvr.fit(X_raw, df_model["Conversion_Rate"])
     
-    importance = rf_conv.feature_importances_  
+    X= df_model[numerical_features]
+    y = df_model[targets]
+    final_features = list(X.columns)
+
+    random_forest_forecast.fit(X, y)
+    importance = random_forest_forecast.feature_importances_  
     
     df_imp = pd.DataFrame({
         "factor": final_features,
@@ -204,7 +205,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     dates, conversions, ROIs, CVRs, CPCs = [last_row["Date"]], [last_row["Conversions"]], [last_row["ROI"]], [last_row["Conversion_Rate"]], [last_cpc]
     curr_conv, curr_roi, curr_clicks_lag, curr_ctr, curr_cpc, curr_cpm = last_row["Conversions"], last_row["ROI"], mean_clicks, last_row["CTR"], last_row["CPC"], last_row["CPM"]
     
-    dummy_pred_row = X_raw.iloc[[-1]].copy()
+    dummy_pred_row = X.iloc[[-1]].copy()
 
     for date in future_dates:
         dummy_pred_row["Conv_Lag1"] = curr_conv
@@ -216,19 +217,17 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         dummy_pred_row["CPM"] = curr_cpm
         
         dummy_pred_row = dummy_pred_row[final_features]
+        res = random_forest_forecast.predict(dummy_pred_row)[0]
         
-        pred_conv = max(0, rf_conv.predict(dummy_pred_row)[0]) 
-        pred_roi = rf_roi.predict(dummy_pred_row)[0]
-        pred_cvr = rf_cvr.predict(dummy_pred_row)[0]
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
-        conversions.append(pred_conv)
-        ROIs.append(pred_roi)
-        CVRs.append(pred_cvr)
+        conversions.append(res[0])
+        ROIs.append(res[1])
+        CVRs.append(res[2])
         CPCs.append(cpc_pred)
     
-        curr_conv, curr_roi = pred_conv, pred_roi
+        curr_conv, curr_roi = res[0], res[1]
         
     df_forecast = pd.DataFrame({
         "Date": dates,
