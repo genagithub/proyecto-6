@@ -23,7 +23,7 @@ df["Acquisition_Cost"] = df["Acquisition_Cost"].str.replace('$', '', regex=False
 df["Acquisition_Cost"] = pd.to_numeric(df["Acquisition_Cost"])
 df["Conversions"] = round(df["Clicks"] * (df["Conversion_Rate"] / 100))
 
-numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week", "CTR", "CPC", "CPM"]
+numerical_features = ["Conv_Lag1", "ROI_Lag1", "Clicks_Lag1", "day_of_week"]
 
 factor_top_b = html.B(children=[], id="factor")
 value_top_b = html.B(children=[], id="value")
@@ -145,9 +145,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         "Conversion_Rate": "mean"
     }).reset_index().sort_values("Date")
 
-    df_ts["CTR"] = (df_ts["Clicks"] / df_ts["Impressions"]).replace([np.inf, -np.inf], 0).fillna(0)
-    df_ts["CPC"] = (df_ts["Acquisition_Cost"] / df_ts["Clicks"]).replace([np.inf, -np.inf], 0).fillna(0)
-    df_ts["CPM"] = ((df_ts["Acquisition_Cost"] / df_ts["Impressions"]) * 1000).replace([np.inf, -np.inf], 0).fillna(0)
+    df_ts["Date"] = pd.to_datetime(df_ts["Date"])
     df_ts["Conv_Lag1"] = df_ts["Conversions"].shift(1)
     df_ts["ROI_Lag1"] = df_ts["ROI"].shift(1)
     df_ts["Clicks_Lag1"] = df_ts["Clicks"].shift(1)
@@ -202,7 +200,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
     last_cpc = mean_cost / mean_clicks if mean_clicks > 0 else 0
 
     dates, conversions, ROIs, CVRs, CPCs = [last_row["Date"]], [last_row["Conversions"]], [last_row["ROI"]], [last_row["Conversion_Rate"]], [last_cpc]
-    curr_conv, curr_roi, curr_clicks_lag, curr_ctr, curr_cpc, curr_cpm = last_row["Conversions"], last_row["ROI"], mean_clicks, last_row["CTR"], last_row["CPC"], last_row["CPM"]
+    curr_conv, curr_roi, curr_clicks_lag = last_row["Conversions"], last_row["ROI"], mean_clicks
     
     dummy_pred_row = X_raw.iloc[[-1]].copy()
 
@@ -211,9 +209,6 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         dummy_pred_row["ROI_Lag1"] = curr_roi
         dummy_pred_row["Clicks_Lag1"] = curr_clicks_lag
         dummy_pred_row["day_of_week"] = date.dayofweek
-        dummy_pred_row["CTR"] = curr_ctr
-        dummy_pred_row["CPC"] = curr_cpc
-        dummy_pred_row["CPM"] = curr_cpm
         
         dummy_pred_row = dummy_pred_row[final_features]
         
