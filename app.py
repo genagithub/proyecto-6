@@ -216,9 +216,7 @@ def update_forecast(slct_var, slct_campaign, slct_company, slct_channel, slct_lo
         dummy_pred_row["CPC"] = curr_cpc
         dummy_pred_row["CPM"] = curr_cpm
         
-        dummy_pred_row = dummy_pred_row[final_features]
-        res = random_forest_forecast.predict(dummy_pred_row)[0]
-        
+        res = random_forest_forecast.predict(dummy_pred_row[final_features])[0]
         cpc_pred = mean_cost / mean_clicks if mean_clicks > 0 else 0
         
         dates.append(date)
