@@ -20,7 +20,7 @@ Dada la discontinuidad y la falta de estacionalidad temporal clásica, se descar
 
 ---
 
-#### 🚀 El Data Product: Simulador de Campañas y Auditoría Digital
+#### 🚀 Solución Analítica: Simulador de Campañas y Auditoría Digital
 El resultado final es una interfaz que no solo automatiza las proyecciones comerciales sino que actúa como un detector de anomalías sistémicas para las diferentes estimulaciones digitales:
 - **Explicabilidad del Rendimiento:** Un gráfico horizontal de barras que desglosa el peso e impacto que tiene cada dimensión y variables clave de inercia.
 - **Proyección de Dimensiones:** Permite simular escenarios analíticos modificando la variable de contexto seleccionada para evaluar la sensibilidad del retorno antes de ejecutar la inversión real.
