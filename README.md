@@ -1,6 +1,6 @@
 ### 📈 Forecasting de Conversiones por Dimensiones Personalizadas
 
-#### 🎯 El Problema de Negocio
+#### 🎯 El Contexto del Problema 
 El equipo de marketing digital busca predecir el impacto de diferentes modelos promocionales en el cumplimiento de su tasa de conversión. El objetivo es transformar las métricas históricas en un modelo de pronóstico capaz de anticipar el rendimiento de las campañas según sus dimensiones operativas, evitando la asignación intuitiva de presupuestos en canales digitales.
 
 ---
