@@ -1,7 +1,7 @@
 ### 📈 Forecasting de Conversiones por Dimensiones Personalizadas
 
 #### 🎯 El Contexto del Problema 
-El equipo de marketing digital se enfrenta al desafío constante de maximizar la tasa de conversión en entornos volátiles, pero carece de visibilidad sobre el trasfondo del éxito de sus pautas, por lo que al no comprender el peso real y la interacción de sus variables de despliegue, las decisiones tácticas y presupuestarias corren el riesgo de asignarse de forma intuitiva o basándose en correlaciones superficiales. El objetivo de este proyecto es transformar estos datos históricos en un modelo de pronóstico y descubrimiento analítico, a través de algoritmos, la solución a implementar busca decodificar patrones temporales ocultos e identificar el impacto y la influencia de cada dimensión operativa de las campañas en las conversiones, descubrir las causas del éxito publicitario y optimizar el mix digital con base en la sensibilidad real de los canales.
+El equipo de marketing digital se enfrenta al desafío constante de maximizar la tasa de conversión en entornos volátiles, pero carece de visibilidad sobre el trasfondo del éxito de sus pautas, por lo que al no comprender el peso real y la interacción de sus variables de despliegue, las decisiones tácticas y presupuestarias corren el riesgo de asignarse de forma intuitiva o basándose en correlaciones superficiales. El objetivo es transformar estos datos históricos en un modelo de pronóstico y descubrimiento analítico a través de decodificar patrones temporales ocultos e identificar el impacto y la influencia de cada dimensión operativa de las campañas en las conversiones, descubrir las causas del éxito publicitario y optimizar el mix digital con base en la sensibilidad real de los canales.
 
 ---
 
