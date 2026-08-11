@@ -16,7 +16,7 @@ from dash import html, dcc
 from dash.dependencies import Output, Input
 
 
-df = pd.read_csv("data/marketing_campaign.csv")
+df = pd.read_csv("data/digital_advertising.zip")
 
 df["Date"] = pd.to_datetime(df["Date"])
 df["Acquisition_Cost"] = df["Acquisition_Cost"].str.replace('$', '', regex=False).str.replace(',', '', regex=False)
