@@ -14,8 +14,8 @@ El análisis estadístico de las series temporales reveló una estructura atípi
 
 #### 🛠️ Enfoque Técnico y Modelado
 Dada la discontinuidad y la falta de estacionalidad temporal clásica, se descartaron los modelos cronológicos tradicionales y se optó por un enfoque basado en aprendizaje supervisado:
-- **Ingeniería de Características (Lags y Encoding):** Se crearon variables de rezago (lags) para capturar la inercia operativa inmediata y se aplicó one-hot encoding sobre dimensiones personalizadas como el tipo de campaña.
-- **Modelado de Random Forest:** Se entrenó un modelo de bosque aleatorio para aprender la relación entre la configuración estratégica de estimulación comercial, su eficiencia previa y el volumen de conversión resultante.
+- **Ingeniería de Características (Lags y Encoding):** Creación de variables de rezago (lags) para capturar la inercia operativa inmediata y se aplicó one-hot encoding sobre dimensiones personalizadas como el tipo de campaña.
+- **Modelado de Random Forest:** Entrenamiento de un modelo de Bosque Aleatorio para aprender la relación entre la configuración estratégica de estimulación comercial, su eficiencia previa y el volumen de conversión resultante.
 - **Segmentación por Dimensiones Operativas:** El enfoque permitió que el pronóstico dependiera de las variables estratégicas inyectadas, adaptando el algoritmo a la naturaleza irregular de los eventos promocionales.
 
 ---
