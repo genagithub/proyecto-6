@@ -23,12 +23,11 @@ Dada la discontinuidad y la falta de estacionalidad temporal clásica, se descar
 #### 🚀 Solución Analítica: Simulador de Campañas y Auditoría Digital
 El resultado final es una interfaz que no solo automatiza las proyecciones comerciales sino que actúa como un detector de anomalías sistémicas para las diferentes estimulaciones digitales:
 - **Explicabilidad del Rendimiento:** Un gráfico horizontal de barras que desglosa el peso e impacto que tiene cada dimensión y variables clave de inercia.
-- **Proyección de Dimensiones:** Permite simular escenarios analíticos modificando la variable de contexto seleccionada para evaluar la sensibilidad del retorno antes de ejecutar la inversión real.
+- **Proyección de Dimensiones:** Permite simular escenarios analíticos modificando la variable de contexto seleccionada para evaluar la sensibilidad del retorno las próximas 2 semanas antes de ejecutar la inversión real.
 
 ---
 
 #### 🎯 Recomendación Estratégica
-La minería de datos reveló un comportamiento crítico: un retorno de inversión plano (5%), una tasa de conversión estática (0.08%) y un costo por clic uniforme ($22.7) en la totalidad de las variables analizadas.Lejos de restar valor al Data Product, esta homogeneidad matemática constituye el hallazgo más relevante del proyecto: **diagnostica un sesgo de linealidad sistémica en el origen de los datos**.
-Los registros históricos carecen de la variabilidad orgánica del mercado. 
-La integración de este simulador interactivo actúa como un espejo analítico de auditoría; demuestra con precisión matemática que el ecosistema actual de datos está viciado o que la empresa opera bajo una distribución empírica plana que anestesia el rendimiento. 
-La solución no es optimizar el algoritmo actual, **sino detener la toma de decisiones intuitiva y ejecutar una reestructuración urgente en la captura de métricas y gobierno de datos** para reconstruir la elasticidad del negocio antes de lanzar la próxima estrategia comercial.
+La minería de datos reveló un comportamiento crítico: un retorno de inversión plano (5%), una tasa de conversión estática (0.08%) y un costo por clic uniforme ($2) en la totalidad de las variables analizadas. Esta homogeneidad matemática constituye el hallazgo más relevante del proyecto: diagnostica un **sesgo de linealidad sistémica** en el origen de los datos, es decir, los registros históricos carecen de la variabilidad orgánica del mercado. 
+
+La integración de este simulador interactivo actúa como un espejo analítico de auditoría; demuestra con precisión matemática que el ecosistema actual de datos está viciado o que la empresa opera bajo una distribución empírica plana que anestesia el rendimiento. La solución no es optimizar el algoritmo actual, sino **detener la toma de decisiones intuitiva y ejecutar una reestructuración urgente en la captura de métricas y gobierno de datos** para reconstruir la elasticidad del negocio antes de lanzar la próxima estrategia comercial.
