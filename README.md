@@ -24,6 +24,7 @@ Dada la discontinuidad y la falta de estacionalidad temporal clásica, se descar
 El resultado final es una interfaz que no solo automatiza las proyecciones comerciales sino que actúa como un detector de anomalías sistémicas para las diferentes estimulaciones digitales:
 - **Explicabilidad del Rendimiento:** Un gráfico horizontal de barras que desglosa el peso e impacto que tiene cada dimensión y variables clave de inercia.
 - **Proyección de Dimensiones:** Permite simular escenarios analíticos modificando la variable de contexto seleccionada para evaluar la sensibilidad del retorno las próximas 2 semanas antes de ejecutar la inversión real.
+- **Registro de Métricas:** Visualiza junto a la serie las métricas para los distinto tipos de leads como MQL, SQL y la conversión final haciendo un análisis global del éxito para la muestra seleccionada.
 
 ---
 
