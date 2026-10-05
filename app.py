@@ -69,7 +69,7 @@ vars = [
 ]
 
 app = dash.Dash(__name__)
-serve = app.server
+server = app.server
 
 app.layout =  html.Div(id="body", className="e6_body", children=[
     html.H1("Análisis por dimensiones personalizadas", id="H1", className="e6_title"),
