@@ -50,7 +50,9 @@ sarimax_model = sm.tsa.statespace.SARIMAX(
     order=(1, 0, 1),
     enforce_stationarity=False,
     enforce_invertibility=False
-).fit(disp=False)
+)
+
+sarimax_model.fit(disp=False)
 
 factor_top_b = html.B(children=[], id="factor")
 value_top_b = html.B(children=[], id="value")
