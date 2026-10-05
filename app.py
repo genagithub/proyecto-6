@@ -11,6 +11,11 @@ from dash.dependencies import Output, Input
 
 df = pd.read_csv("data/digital_advertising.zip")
 
+df["Date"] = pd.to_datetime(df["Date"])
+df["Acquisition_Cost"] = df["Acquisition_Cost"].str.replace('$', '', regex=False).str.replace(',', '', regex=False)
+df["Acquisition_Cost"] = pd.to_numeric(df["Acquisition_Cost"])
+df["Conversions"] = round(df["Clicks"] * df["Conversion_Rate"])
+
 df_clean = df.copy()
 
 for col in ["Campaign_Type","Company","Location","Channel_Used"]:
