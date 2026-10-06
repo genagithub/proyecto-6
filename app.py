@@ -184,7 +184,7 @@ def update_forecast(slct_var, slct_period):
         labels={"index": "Fecha", "Conversiones Proyectadas": "Leads"}
     )
 
-    forecasting.update_traces(line_color="red", line_dash="dash")
+    forecasting.update_traces(line_color="red", line_dash="dashdot")
     forecasting.update_layout(template="plotly_white", height=350)
 
     mean_total_clics = df_daily["Clicks"].tail(14).mean()
