@@ -40,7 +40,7 @@ df_daily = df_clean.groupby("Date").agg({
 y = df_daily["Conversions"]
 X = df_daily[exogenous_cols]
 
-sarimax_model = sm.tsa.statespace.SARIMAX(
+sarimax = sm.tsa.statespace.SARIMAX(
     y,
     exog=X,
     order=(1, 0, 1),
@@ -48,7 +48,7 @@ sarimax_model = sm.tsa.statespace.SARIMAX(
     enforce_invertibility=False
 )
 
-sarimax_model.fit(disp=False)
+sarimax_model = sarimax.fit(disp=False)
 
 factor_top_b = html.B(children=[], id="factor")
 value_top_b = html.B(children=[], id="value")
