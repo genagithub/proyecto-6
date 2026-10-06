@@ -1,8 +1,8 @@
 ### 📈 Forecasting de Conversiones y Medición del Impacto de Factores del Mix
 
 #### 🎯 El Contexto del Problema 
-El equipo de marketing digital se enfrenta al desafío constante de maximizar la tasa de conversión de leads, entendidos como el registro de prospectos calificados en entornos volátiles. Ante la falta de visibilidad del éxito de las pautas, las decisiones tácticas y presupuestarias corren el riesgo de asignarse de forma intuitiva o basándose en correlaciones superficiales que comprometen el retorno de la inversión. El objetivo es transformar el histórico transaccional en un motor de descubrimiento analítico y pronóstico mediante un modelo econométrico con variables exógenas, de manera que se decodifiquen los patrones temporales ocultos e identifiquen el impacto neto de cada dimensión operativa sobre la conversión final.
-
+El equipo de marketing digital se enfrenta al desafío constante de maximizar la tasa de conversión de leads, entendidos como el registro de prospectos calificados en entornos volátiles. Ante la falta de visibilidad del éxito de las pautas, las decisiones tácticas y presupuestarias corren el riesgo de asignarse de forma intuitiva o basándose en correlaciones superficiales que comprometen el retorno de la inversión. El objetivo a través del histórico de la serie temporal, es fusionar la precisión de un forecasting de conversiones con el descubrimiento analítico del mix de medios, de manera que se decodifiquen los patrones temporales ocultos e identifiquen el impacto neto de cada dimensión operativa sobre la conversión final.
+ 
 ---
 
 #### 💡 Hallazgos Clave de la Investigación (Causalidades Actuales)
@@ -29,4 +29,4 @@ El resultado final es una herramienta interactiva que funciona como un centro de
 ---
 
 #### 📌 Propósito de este Proyecto: Impacto Estratégico
-- **Maximización de la Eficiencia de Capital Operativo:** Al fusionar la precisión de un pronóstico con el descubrimiento analítico del mix de medios no se busca simplemente gastar más, sino reestructurar la inversión hacia los vectores de campaña con mayor elasticidad de conversión, lo que se traduce en una estrategia de rentabilidad agresiva que maximiza el Retorno de la Inversión en Marketing (ROMI) y mitiga el Costo de Adquisición de Clientes (CAC), permitiendo a la organización capturar un mayor volumen de prospectos calificados utilizando los mismos recursos financieros disponibles.
+- **Maximización de la Eficiencia de Capital Operativo:** Reestructura la inversión baseline hacia los vectores de campaña con mayor elasticidad de conversión, lo que se traduce en una estrategia de rentabilidad agresiva que maximiza el Retorno de la Inversión en Marketing (ROMI) y mitiga el Costo de Adquisición de Clientes (CAC), permitiendo a la organización capturar un mayor volumen de prospectos calificados utilizando los mismos recursos financieros disponibles.
