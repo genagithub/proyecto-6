@@ -100,10 +100,7 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
         html.Div(id="graph_div_2", className="e6_graph_div_2", children=[
         html.Div(id="dropdown_div_2", className="e6_dropdown_div_2", children=[
             dcc.Dropdown(id="dropdown_var4", className="e6_dropdown_2",
-                        options={"1 semana":7,
-                                 "2 semanas":14,
-                                 "3 semanas":21,
-                                 "4 semanas":28},
+                        options=periods,
                         value=14,
                         multi=False,
                         clearable=False)
