@@ -1,4 +1,4 @@
-### 📈 Forecasting de Conversiones 
+### 📈 Forecasting de Conversiones y Medición del Impacto de Factores del Mix
 
 #### 🎯 El Contexto del Problema 
 El equipo de marketing digital se enfrenta al desafío constante de maximizar la tasa de conversión de leads, entendidos como el registro de prospectos calificados en entornos volátiles. Ante la falta de visibilidad del éxito de las pautas, las decisiones tácticas y presupuestarias corren el riesgo de asignarse de forma intuitiva o basándose en correlaciones superficiales que comprometen el retorno de la inversión. El objetivo es transformar el histórico transaccional en un motor de descubrimiento analítico y pronóstico mediante un modelo econométrico con variables exógenas, de manera que se decodifiquen los patrones temporales ocultos e identifiquen el impacto neto de cada dimensión operativa sobre la conversión final.
@@ -20,7 +20,7 @@ Para resolver la opacidad analítica de las pautas sin caer en el sobreajuste qu
 
 ---
 
-#### 🚀 Solución Analítica: Proyección de Conversiones y Medición del Impacto
+#### 🚀 Solución Analítica: Proyector de Conversiones
 El resultado final es una interfaz interactiva que funciona como un centro de control ejecutivo que audita el pasado y simula el futuro a través de tres capacidades estratégicas:
 - **Auditoría de Atribución Neta (Mix de Medios)**: Traduce los coeficientes estadísticos en un gráfico interactivo de impacto marginal, se revela el peso real de cada variable aislando factores externos y permitiendo identificar de inmediato los verdaderos motores de conversión del negocio.
 - **Desmitificación de Canales**: Detecta qué componentes no están moviendo la aguja (como se demostró estadísticamente con el caso de YouTube). Esto permite al equipo redefinir la estrategia de estos canales hacia objetivos de branding o asistencia en el embudo superior, deteniendo la asignación intuitiva de presupuestos de performance.
