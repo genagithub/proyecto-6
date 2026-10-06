@@ -163,15 +163,16 @@ def update_forecast(slct_var, slct_period):
         template="plotly_white"
     )
 
-    df_recent = df_daily.tail(28).copy()
-    df_recent["day_of_week"] = df_recent.index.dayofweek
-    week_profile = df_recent.groupby("day_of_week")[exogenous_cols].mean()
-
     future_dates = pd.date_range(start=df_daily.index[-1] + pd.Timedelta(days=1), periods=slct_period, freq="D")
-    
+    df_recent = df_daily.tail(30)
     X_future = pd.DataFrame(index=future_dates)
+    np.random.seed(42) 
+    
     for col in exogenous_cols:
-        X_future[col] = [week_profile.loc[date.dayofweek, col] for date in future_dates]
+        mean = df_recent[col].mean()
+        volatility = df_recent[col].std()
+        random_noise = np.random.normal(loc=0, scale=volatility * 0.5, size=slct_period)
+        X_future[col] = np.clip(mean + random_noise, a_min=0, a_max=None)
         
     forecast = sarimax_model.forecast(steps=slct_period, exog=X_future)
     df_forecast = pd.DataFrame({"Conversiones Proyectadas": forecast}, index=future_dates)
