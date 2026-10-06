@@ -164,7 +164,7 @@ def update_forecast(slct_var, slct_period):
     )
 
     df_recent = df_daily.tail(28).copy()
-    df_recent["day_of_week"] = df_reciente.index.dayofweek
+    df_recent["day_of_week"] = df_recent.index.dayofweek
     week_profile = df_recent.groupby("day_of_week")[exogenous_cols].mean()
 
     future_dates = pd.date_range(start=df_daily.index[-1] + pd.Timedelta(days=1), periods=slct_period, freq="D")
