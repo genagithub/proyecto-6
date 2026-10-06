@@ -21,7 +21,7 @@ Para resolver la opacidad analítica de las pautas sin caer en el sobreajuste qu
 ---
 
 #### 🚀 Solución Analítica: Proyector de Conversiones
-El resultado final es una interfaz interactiva que funciona como un centro de control ejecutivo que audita el pasado y simula el futuro a través de tres capacidades estratégicas:
+El resultado final es una herramienta interactiva que funciona como un centro de control ejecutivo que audita el pasado y simula el futuro a través de tres capacidades estratégicas:
 - **Auditoría de Atribución Neta (Mix de Medios)**: Traduce los coeficientes estadísticos en un gráfico interactivo de impacto marginal, se revela el peso real de cada variable aislando factores externos y permitiendo identificar de inmediato los verdaderos motores de conversión del negocio.
 - **Desmitificación de Canales**: Detecta qué componentes no están moviendo la aguja (como se demostró estadísticamente con el caso de YouTube). Esto permite al equipo redefinir la estrategia de estos canales hacia objetivos de branding o asistencia en el embudo superior, deteniendo la asignación intuitiva de presupuestos de performance.
 - **Simulación de Horizontes Futuros Dinámicos**: Estima el volumen de leads totales bajo escenarios estables de pauta, el gráfico de tendencia futura se complementa con tres tarjetas de control financiero (CPA, CVR y CPC Medios Proyectados), permitiendo a la dirección previsualizar si el escenario simulado mantendrá la eficiencia de costos antes de arriesgar capital en el mercado real.
