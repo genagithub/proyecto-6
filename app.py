@@ -197,9 +197,9 @@ def update_forecast(slct_var, slct_period):
     cvr_projected = (mean_projected_conversions / mean_total_clics) * 100 if mean_total_clics > 0 else 0
     cpc_projected = mean_total_cost  / mean_total_clics if mean_total_clics > 0 else 0
 
-    CPA_val = f"${round(cpa_projected, 2)}"
+    CPA_val = round(cpa_projected, 2)
     CVR_val = round(cvr_projected, 2)
-    CPC_val = f"${round(cpc_projected, 2)}"
+    CPC_val = round(cpc_projected, 2)
 
     return factor_top_text, value_top_text, barchart, forecasting, CPA_val, CVR_val, CPC_val
 
