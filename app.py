@@ -99,7 +99,7 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
         ]),
         html.Div(id="graph_div_2", className="e6_graph_div_2", children=[
         html.Div(id="dropdown_div_2", className="e6_dropdown_div_2", children=[
-            dcc.Dropdown(id="dropdown_var4", className="e6_dropdown_2",
+            dcc.Dropdown(id="dropdown_period", className="e6_dropdown_2",
                         options=periods,
                         value=14,
                         multi=False,
