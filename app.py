@@ -99,7 +99,7 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
         ]),
         html.Div(id="graph_div_2", className="e6_graph_div_2", children=[
         html.Div(id="dropdown_div_2", className="e6_dropdown_div_2", children=[
-            dcc.Dropdown(id="dropdown_period", className="e6_dropdown_2",
+            dcc.Dropdown(id="dropdown_periods", className="e6_dropdown_2",
                         options=periods,
                         value=14,
                         multi=False,
@@ -120,7 +120,7 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
     Output(component_id="CVR", component_property="children"),
     Output(component_id="CPC", component_property="children")],
     [Input(component_id="dropdown_vars", component_property="value"),
-    Input(component_id="dropdown_period", component_property="value")]
+    Input(component_id="dropdown_periods", component_property="value")]
 )
 
 def update_forecast(slct_var, slct_period):
