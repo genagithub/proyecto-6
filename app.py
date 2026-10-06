@@ -93,7 +93,10 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
         html.Div(id="graph_div_2", className="e6_graph_div_2", children=[
         html.Div(id="dropdown_div_2", className="e6_dropdown_div_2", children=[
             dcc.Dropdown(id="dropdown_var4", className="e6_dropdown_2",
-                        options=[7, 14, 21, 28],
+                        options={"1 semana":7,
+                                 "2 semanas":14,
+                                 "3 semanas":21,
+                                 "4 semanas":28},
                         value=14,
                         multi=False,
                         clearable=False)
@@ -180,9 +183,9 @@ def update_forecast(slct_var, slct_period):
 
     mean_projected_conversions = forecast.mean()
 
-    cpa_proyectado = mean_total_cost / mean_projected_conversions if mean_projected_conversions > 0 else 0
-    cvr_proyectado = (mean_projected_conversions / mean_total_clics) * 100 if mean_total_clics > 0 else 0
-    cpc_proyectado = mean_total_cost  / mean_total_clics if mean_total_clics > 0 else 0
+    cpa_projected = mean_total_cost / mean_projected_conversions if mean_projected_conversions > 0 else 0
+    cvr_projected = (mean_projected_conversions / mean_total_clics) * 100 if mean_total_clics > 0 else 0
+    cpc_projected = mean_total_cost  / mean_total_clics if mean_total_clics > 0 else 0
 
     CPA_val = f"${round(cpa_projected, 2)}"
     CVR_val = round(cvr_projected, 2)
