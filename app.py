@@ -180,11 +180,12 @@ def update_forecast(slct_var, slct_period):
     forecasting = px.line(
         df_forecast,
         y="Conversiones Proyectadas",
+        markers=True,
         title=f"Pronóstico de Conversiones Totales del Ecosistema - Próximos {slct_period} Días",
         labels={"index": "Fecha", "Conversiones Proyectadas": "Leads"}
     )
 
-    forecasting.update_traces(line_color="red", line_dash="dash", markers=True)
+    forecasting.update_traces(line_color="red", line_dash="dash")
     forecasting.update_layout(template="plotly_white", height=350)
 
     mean_total_clics = df_daily["Clicks"].tail(14).mean()
