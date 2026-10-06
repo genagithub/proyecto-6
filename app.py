@@ -133,7 +133,7 @@ def update_forecast(slct_var, slct_period):
 
     df_filtered = df_coef[df_coef["Variable"].str.startswith(f"{slct_var}_")].copy()
     df_filtered["Category"] = df_filtered["Variable"].str.replace(f"{slct_var}_", "")
-    df_filtered = df_filtered.sort_values(by="Impact", ascending=False)
+    df_filtered = df_filtered.sort_values(by="Impact", ascending=True)
 
     df_positives = df_filtered[df_filtered["Impact"] > 0]
     if not df_positives.empty:
@@ -150,8 +150,8 @@ def update_forecast(slct_var, slct_period):
         y="Category",
         orientation="h",
         title=f"Impacto Marginal Neto de {slct_var}",
-        labels={"Impact": "Conversiones Adicionales por Clic", "Categoria": "Segmento"},
-        color="Impacto",
+        labels={"Impact": "Conversiones Adicionales por Clic", "Category": "Segmento"},
+        color="Impact",
         color_continuous_scale="RdYlGn"
     )
 
