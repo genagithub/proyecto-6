@@ -40,13 +40,9 @@ df_daily = df_clean.groupby("Date").agg({
 y = df_daily["Conversions"]
 X = df_daily[exogenous_cols]
 
-train_size = int(len(df_daily) * 0.8)
-y_train, y_test = y.iloc[:train_size], y.iloc[train_size:]
-X_train, X_test = X.iloc[:train_size], X.iloc[train_size:]
-
 sarimax_model = sm.tsa.statespace.SARIMAX(
-    y_train,
-    exog=X_train,
+    y,
+    exog=X,
     order=(1, 0, 1),
     enforce_stationarity=False,
     enforce_invertibility=False
