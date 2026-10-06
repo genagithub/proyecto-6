@@ -1,7 +1,7 @@
 ### 📈 Forecasting de Conversiones y Medición del Impacto de Factores del Mix
 
 #### 🎯 El Contexto del Problema 
-El equipo de marketing digital se enfrenta al desafío constante de maximizar la tasa de conversión de leads, entendidos como el registro de prospectos calificados en entornos volátiles. Ante la falta de visibilidad del éxito de las pautas, las decisiones tácticas y presupuestarias corren el riesgo de asignarse de forma intuitiva o basándose en correlaciones superficiales que comprometen el retorno de la inversión. El objetivo a través del histórico de la serie temporal, es fusionar la precisión de un forecasting de conversiones con el descubrimiento analítico del mix de medios, de manera que se decodifiquen los patrones temporales ocultos e identifiquen el impacto neto de cada dimensión operativa sobre la conversión final.
+El equipo de marketing digital se enfrenta al desafío constante de maximizar la tasa de conversión de leads, entendidos como el registro de prospectos calificados en entornos volátiles. Ante la falta de visibilidad del éxito de las pautas, las decisiones tácticas y presupuestarias corren el riesgo de asignarse de forma intuitiva o basándose en correlaciones superficiales que comprometen el retorno de la inversión. El objetivo es fusionar la precisión de un forecasting de conversiones con el descubrimiento analítico del mix de medios a través del histórico de la serie temporal, de manera que se decodifiquen los patrones temporales ocultos e identifiquen el impacto neto de cada dimensión operativa sobre la conversión final.
  
 ---
 
