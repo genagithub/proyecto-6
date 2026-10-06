@@ -64,6 +64,13 @@ vars = [
     {"label":"Locación","value":"Location"}
 ]
 
+periods = [
+       {"label":"1 semana","value":7},
+       {"label":"2 semanas","value":14},
+       {"label":"3 semanas","value":21},
+       {"label":"4 semanas","value":28}
+]
+
 app = dash.Dash(__name__)
 server = app.server
 
