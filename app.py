@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import joblib
 import statsmodels.api as sm
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
@@ -37,18 +38,7 @@ df_daily = df_clean.groupby("Date").agg({
     **{col: "sum" for col in exogenous_cols}
 }).asfreq("D")
 
-y = df_daily["Conversions"]
-X = df_daily[exogenous_cols]
-
-sarimax = sm.tsa.statespace.SARIMAX(
-    y,
-    exog=X,
-    order=(1, 0, 1),
-    enforce_stationarity=False,
-    enforce_invertibility=False
-)
-
-sarimax_model = sarimax.fit(disp=False)
+sarimax_model = joblib.load("model/sarimax_model.pkl")
 
 factor_top_b = html.B(children=[], id="factor")
 value_top_b = html.B(children=[], id="value")
