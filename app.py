@@ -85,8 +85,8 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
     ]),
     html.Div(id="graph_div_1", className="e6_graph_div_1", children=[
         html.Div(id="KPI_div_1", className="e6_KPI_div_1", children=[
-            html.Div(className="e6_KPI_1", children=[html.P(factor_top_b)]),
-            html.Div(className="e6_KPI_1", children=[html.P(value_top_b)])
+            html.Div(className="e6_KPI_1", children=[html.P(children=[factor_top_b])]),
+            html.Div(className="e6_KPI_1", children=[html.P(children=[value_top_b])])
         ]),
         dcc.Graph(id="conversions_analysis", figure={}, className="e6_graph_1")
     ]),
