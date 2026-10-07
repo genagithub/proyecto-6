@@ -28,5 +28,5 @@ El resultado final es una herramienta interactiva que funciona como un centro de
 
 ---
 
-#### 📌 Propósito de este Proyecto: Impacto Estratégico
+#### 📌 Propósito: Impacto Estratégico
 - **Maximización de la Eficiencia de Capital Operativo:** Reestructura la inversión baseline hacia los vectores de campaña con mayor elasticidad de conversión, lo que se traduce en una estrategia de rentabilidad agresiva que maximiza el Retorno de la Inversión en Marketing (ROMI) y mitiga el Costo de Adquisición de Clientes (CAC), permitiendo a la organización capturar un mayor volumen de prospectos calificados utilizando los mismos recursos financieros disponibles.
