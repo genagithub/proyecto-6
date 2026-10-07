@@ -65,7 +65,7 @@ h2:hover{
     height:100%;
 }
 .e6_graph_div_1{
-    width: 70%;
+    width: 60%;
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -75,7 +75,7 @@ h2:hover{
 }
 .e6_graph_1{
     width: 100%;
-    max-height: 350px;
+    height: 100%;
     box-shadow: #000000 4px 4px 15px 0px;
 }
 .e6_forecast_div{
