@@ -38,7 +38,7 @@ df_daily = df_clean.groupby("Date").agg({
     **{col: "sum" for col in exogenous_cols}
 }).asfreq("D")
 
-sarimax_model = joblib.load("model/sarimax_model.pkl")
+sarimax_model = joblib.load("model/sarimax_converssions.pkl")
 
 factor_top_b = html.B(children=[], id="factor")
 value_top_b = html.B(children=[], id="value")
