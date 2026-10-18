@@ -56,9 +56,9 @@ vars = [
 
 periods = [
        {"label":"1 semana","value":7},
-       {"label":"2 semanas","value":14},
+       {"label":"1 quincena","value":15},
        {"label":"3 semanas","value":21},
-       {"label":"4 semanas","value":28}
+       {"label":"1 mes","value":30}
 ]
 
 app = dash.Dash(__name__)
