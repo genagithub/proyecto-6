@@ -47,20 +47,6 @@ CPA = html.B(children=[], id="CPA")
 CVR = html.B(children=[], id="CVR")
 CPC = html.B(children=[], id="CPC")
 
-vars = [
-    {"label":"Tipo de campaña","value":"Campaign_Type"},
-    {"label":"Compañía","value":"Company"},
-    {"label":"Canal usado","value":"Channel_Used"},
-    {"label":"Locación","value":"Location"}
-]
-
-periods = [
-       {"label":"1 semana","value":7},
-       {"label":"1 quincena","value":15},
-       {"label":"3 semanas","value":21},
-       {"label":"1 mes","value":30}
-]
-
 app = dash.Dash(__name__)
 server = app.server
 
@@ -68,7 +54,12 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
     html.H1("Análisis por dimensiones personalizadas", id="H1", className="e6_title"),
     html.Div(id="dropdown_div_1", className="e6_dropdown_div_1", children=[
     dcc.Dropdown(id="dropdown_vars", className="e6_dropdown_1",
-                options=vars,
+                options=[
+                         {"label":"Tipo de campaña","value":"Campaign_Type"},
+                         {"label":"Compañía","value":"Company"},
+                         {"label":"Canal usado","value":"Channel_Used"},
+                         {"label":"Locación","value":"Location"}
+                ],
                 value="Campaign_Type",
                 multi=False,
                 clearable=False),
@@ -90,8 +81,13 @@ app.layout =  html.Div(id="body", className="e6_body", children=[
         html.Div(id="graph_div_2", className="e6_graph_div_2", children=[
         html.Div(id="dropdown_div_2", className="e6_dropdown_div_2", children=[
             dcc.Dropdown(id="dropdown_periods", className="e6_dropdown_2",
-                        options=periods,
-                        value=14,
+                        options=[
+                                 {"label":"1 semana","value":7},
+                                 {"label":"1 quincena","value":15},
+                                 {"label":"3 semanas","value":21},
+                                 {"label":"1 mes","value":30}
+                        ],
+                        value=15,
                         multi=False,
                         clearable=False)
         ]),
