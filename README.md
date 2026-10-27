@@ -5,7 +5,7 @@ El equipo de marketing digital se enfrenta al desafío constante de maximizar la
  
 ---
 
-#### 💡 Hallazgos Clave de la Investigación (Causalidades Actuales)
+#### 💡 Hallazgos Clave (Insights): Causalidades del hoy
 Se desmitificó las correlaciones superficiales del rendimiento publicitario mediante un desglose secuencial, revelando dos dinámicas críticas sobre el comportamiento del mercado:
 - **Homogeneidad Estacional Absoluta**: La variación en el volumen de conversiones entre el mejor día de la semana (Lunes) y el peor (Fin de semana) es de apenas un 1.2%, demostrando que la demanda de leads es lineal y el consumidor digital reacciona con la misma consistencia de lunes a domingo.
 - **Predominancia de Estímulos Inmediatos (Ruido Operativo)**: Al aislar la estacionalidad semanal, la volatilidad diaria de la serie responde de forma directa a las configuraciones tácticas del día (canales y presupuestos activos), confirmando que el ecosistema no se mueve por inercia temporal pasada, sino por los impactos presupuestarios del presente.
